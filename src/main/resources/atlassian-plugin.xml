@@ -9,6 +9,35 @@
 
     <!-- add our i18n resource -->
     <resource type="i18n" name="i18n" location="browserstack-bamboo-integration"/>
+
+    <web-resource key="BStackAssets" name="BStackAssets">
+        <resource type="download" name="browserstack_logo.svg" location="images/browserstack_logo.svg"/>
+    </web-resource>
+
+    <web-item key="BStackGlobalConfig" name="BStackGlobalConfig" section="system.admin/system" weight="130">
+        <label key="BrowserStack Configuration"/>
+        <link linkId="browserstackConfig">/admin/browserstack/BStackEditConfiguration.action</link>
+    </web-item>
+
+
+    <xwork key="BStackActions" name="BrowserStack Plugin Actions">
+        <package name="BStackAdmin" extends="admin" namespace="/admin/browserstack">
+            <action name="BStackEditConfiguration" class="com.browserstack.configureBStack" method="edit">
+                <result name="input" type="freemarker">/templates/configureBStack.ftl</result>
+                <result name="success" type="freemarker">/templates/configureBStack.ftl</result>
+                <result name="error" type="freemarker">/TODOERROR.ftl</result>
+                <param name="mode">edit</param>
+            </action>
+
+            <action name="BStackSaveConfiguration" class="com.browserstack.configureBStack" method="save">
+                <result name="input" type="freemarker">/templates/configureBStack.ftl</result>
+                <result name="success" type="freemarker">/templates/configureBStack.ftl</result>
+                <result name="error" type="freemarker">/TODOERROR.ftl</result>
+            </action>
+
+        </package>
+    </xwork>
+
     
     <!-- add our web resources -->
     <web-resource key="browserstack-bamboo-integration-resources" name="browserstack-bamboo-integration Web Resources">
