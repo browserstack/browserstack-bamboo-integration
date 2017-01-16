@@ -18,20 +18,19 @@
         <label key="BrowserStack Configuration"/>
         <link linkId="browserstackConfig">/admin/browserstack/BStackEditConfiguration.action</link>
     </web-item>
-
-
+    
     <xwork key="BStackActions" name="BrowserStack Plugin Actions">
         <package name="BStackAdmin" extends="admin" namespace="/admin/browserstack">
-            <action name="BStackEditConfiguration" class="com.browserstack.configureBStack" method="edit">
-                <result name="input" type="freemarker">/templates/configureBStack.ftl</result>
-                <result name="success" type="freemarker">/templates/configureBStack.ftl</result>
+            <action name="BStackEditConfiguration" class="com.browserstack.ConfigureBStack" method="edit">
+                <result name="input" type="freemarker">/templates/ConfigureBStack.ftl</result>
+                <result name="success" type="freemarker">/templates/ConfigureBStack.ftl</result>
                 <result name="error" type="freemarker">/TODOERROR.ftl</result>
                 <param name="mode">edit</param>
             </action>
 
-            <action name="BStackSaveConfiguration" class="com.browserstack.configureBStack" method="save">
-                <result name="input" type="freemarker">/templates/configureBStack.ftl</result>
-                <result name="success" type="freemarker">/templates/configureBStack.ftl</result>
+            <action name="BStackSaveConfiguration" class="com.browserstack.ConfigureBStack" method="save">
+                <result name="input" type="freemarker">/templates/ConfigureBStack.ftl</result>
+                <result name="success" type="freemarker">/templates/ConfigureBStack.ftl</result>
                 <result name="error" type="freemarker">/TODOERROR.ftl</result>
             </action>
 

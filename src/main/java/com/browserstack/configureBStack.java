@@ -11,13 +11,13 @@ import com.browserstack.BStackEnvVars;
 import com.atlassian.plugin.PluginAccessor;
 
 
-public class configureBStack extends BambooActionSupport implements GlobalAdminSecurityAware
+public class ConfigureBStack extends BambooActionSupport implements GlobalAdminSecurityAware
 {
 
     private String username;
     private String accessKey;
 
-    public configureBStack(){
+    public ConfigureBStack(){
       super();
 
       setAdministrationConfigurationAccessor(ComponentLocator.getComponent(AdministrationConfigurationAccessor.class));
@@ -39,7 +39,7 @@ public class configureBStack extends BambooActionSupport implements GlobalAdminS
 
       adminConfig.setSystemProperty(BStackEnvVars.BSTACK_USERNAME,getUsername());
       adminConfig.setSystemProperty(BStackEnvVars.BSTACK_ACCESS_KEY,getAccessKey());
-      
+
       return SUCCESS;
     }
 
