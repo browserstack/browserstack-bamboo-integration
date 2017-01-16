@@ -14,7 +14,7 @@
         cancelUri='/admin/administer.action']
 
         [@ui.bambooSection title="Credentials"]
-            [@ww.textfield name='username' label='Username' /]
+            [@ww.textfield name="username" label='Username' /]
             [@ww.textfield name="accessKey" label='Access Key' /]
         [/@ui.bambooSection]
     [/@ww.form]
