@@ -18,7 +18,14 @@
         <label key="BrowserStack Configuration"/>
         <link linkId="browserstackConfig">/admin/browserstack/BStackEditConfiguration.action</link>
     </web-item>
-    
+
+    <preBuildAction key="sss" name="ss Build Settings"
+                    class="com.browserstack.BStackBuildSettings">
+        <!-- <resource type="freemarker" name="edit" /> -->
+            <!-- <resource type="freemarker" name="view" /> -->
+        <description>Configures BrowserStack Plugin Settings</description>
+    </preBuildAction>
+
     <xwork key="BStackActions" name="BrowserStack Plugin Actions">
         <package name="BStackAdmin" extends="admin" namespace="/admin/browserstack">
             <action name="BStackEditConfiguration" class="com.browserstack.ConfigureBStack" method="edit">
