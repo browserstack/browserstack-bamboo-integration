@@ -19,12 +19,15 @@
         <link linkId="browserstackConfig">/admin/browserstack/BStackEditConfiguration.action</link>
     </web-item>
 
-    <preBuildAction key="sss" name="ss Build Settings"
+    <preBuildAction key="BStackBuildSettings" name="BrowserStack Build Settings"
                     class="com.browserstack.BStackBuildSettings">
-        <!-- <resource type="freemarker" name="edit" /> -->
-            <!-- <resource type="freemarker" name="view" /> -->
-        <description>Configures BrowserStack Plugin Settings</description>
+                    
+        <description>Configures BrowserStack Build</description>
     </preBuildAction>
+
+    <preBuildQueuedAction key="BStackEnvironmentConfigurator" name="BrowserStack Environment Configurator"
+                          class="com.browserstack.BStackEnvironmentConfigurator">
+    </preBuildQueuedAction>
 
     <xwork key="BStackActions" name="BrowserStack Plugin Actions">
         <package name="BStackAdmin" extends="admin" namespace="/admin/browserstack">
