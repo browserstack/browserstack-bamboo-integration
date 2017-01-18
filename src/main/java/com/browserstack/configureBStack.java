@@ -16,6 +16,10 @@ public class ConfigureBStack extends BambooActionSupport implements GlobalAdminS
 
     private String username;
     private String accessKey;
+    private String browserstackLocal;
+    private String browserstackLocalPath;
+    private String browserstackLocalArgs;
+
 
     public ConfigureBStack(){
       super();
@@ -30,6 +34,9 @@ public class ConfigureBStack extends BambooActionSupport implements GlobalAdminS
 
       setUsername(adminConfig.getSystemProperty(BStackEnvVars.BSTACK_USERNAME));
       setAccessKey(adminConfig.getSystemProperty(BStackEnvVars.BSTACK_ACCESS_KEY));
+      setBrowserstackLocal(adminConfig.getSystemProperty(BStackEnvVars.BSTACK_LOCAL_ENABLED));
+      setBrowserstackLocalArgs(adminConfig.getSystemProperty(BStackEnvVars.BSTACK_LOCAL_PATH));
+      setBrowserstackLocalPath(adminConfig.getSystemProperty(BStackEnvVars.BSTACK_LOCAL_ARGS));
 
       return INPUT;
     }
@@ -39,6 +46,10 @@ public class ConfigureBStack extends BambooActionSupport implements GlobalAdminS
 
       adminConfig.setSystemProperty(BStackEnvVars.BSTACK_USERNAME,getUsername());
       adminConfig.setSystemProperty(BStackEnvVars.BSTACK_ACCESS_KEY,getAccessKey());
+      adminConfig.setSystemProperty(BStackEnvVars.BSTACK_LOCAL_ENABLED,getBrowserstackLocal());
+      adminConfig.setSystemProperty(BStackEnvVars.BSTACK_LOCAL_PATH,getBrowserstackLocalPath());
+      adminConfig.setSystemProperty(BStackEnvVars.BSTACK_LOCAL_ARGS,getBrowserstackLocalArgs());
+
 
       return SUCCESS;
     }
@@ -61,6 +72,36 @@ public class ConfigureBStack extends BambooActionSupport implements GlobalAdminS
     public void setUsername(String username)
     {
         this.username = username;
+    }
+
+    public void setBrowserstackLocal(String value)
+    {
+        this.browserstackLocal = value;
+    }
+
+    public String getBrowserstackLocal()
+    {
+        return browserstackLocal;
+    }
+
+    public void setBrowserstackLocalPath(String value)
+    {
+        this.browserstackLocalPath = value;
+    }
+
+    public String getBrowserstackLocalPath()
+    {
+        return browserstackLocalPath;
+    }
+
+    public void setBrowserstackLocalArgs(String value)
+    {
+        this.browserstackLocalArgs = value;
+    }
+
+    public String getBrowserstackLocalArgs()
+    {
+        return browserstackLocalArgs;
     }
 
 }

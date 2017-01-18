@@ -20,9 +20,7 @@
     </web-item>
 
     <preBuildAction key="BStackBuildSettings" name="BrowserStack Build Settings"
-                    class="com.browserstack.BStackBuildSettings">
-                    
-        <description>Configures BrowserStack Build</description>
+            class="com.browserstack.BStackBuildSettings">
     </preBuildAction>
 
     <preBuildQueuedAction key="BStackEnvironmentConfigurator" name="BrowserStack Environment Configurator"
