@@ -1,3 +1,9 @@
+#BrowserStack Bamboo Integration Plugin
+
+![BrowserStack Logo](https://d98b8t1nnulk5.cloudfront.net/production/images/layout/logo-header.png)
+
+<img src ="https://www.clearvision-cm.com/wp-content/uploads/2015/03/Bamboo-URL.png" width = "250px">
+
 ###Development
 Make sure the Atlassian SDK is installed.
 
