@@ -1,4 +1,4 @@
-package com.browserstack;
+package com.browserstack.bamboo.ci;
 
 import com.atlassian.bamboo.task.TaskDefinition;
 import com.atlassian.bamboo.plan.Plan;

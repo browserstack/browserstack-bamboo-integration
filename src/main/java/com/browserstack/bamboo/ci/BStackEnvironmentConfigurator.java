@@ -1,4 +1,4 @@
-package com.browserstack;
+package com.browserstack.bamboo.ci;
 
 import com.atlassian.bamboo.variable.VariableContext;
 import com.atlassian.bamboo.variable.VariableDefinitionContext;
@@ -12,8 +12,7 @@ import com.atlassian.bamboo.task.TaskDefinition;
 import com.atlassian.bamboo.process.EnvironmentVariableAccessorImpl;
 import com.atlassian.bamboo.process.EnvironmentVariableAccessor;
 import com.atlassian.sal.api.component.ComponentLocator;
-
-import com.browserstack.BStackEnvVars;
+import com.browserstack.bamboo.ci.BStackEnvVars;
 import org.apache.commons.lang.StringUtils;
 import java.util.List;
 import java.util.Map;

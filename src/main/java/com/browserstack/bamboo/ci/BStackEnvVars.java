@@ -1,4 +1,4 @@
-package com.browserstack;
+package com.browserstack.bamboo.ci;
 
 public final class BStackEnvVars
 {

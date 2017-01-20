@@ -7,11 +7,10 @@
         <param name="plugin-logo">images/pluginLogo.png</param>
     </plugin-info>
 
-    <!-- add our i18n resource -->
-    <resource type="i18n" name="i18n" location="browserstack-bamboo-integration"/>
-
     <web-resource key="BStackAssets" name="BStackAssets">
         <resource type="download" name="browserstack_logo.svg" location="images/browserstack_logo.svg"/>
+
+        <resource type="download" name="browserstack_icon.svg" location="images/browserstack_icon.svg"/>
     </web-resource>
 
     <web-item key="BStackGlobalConfig" name="BStackGlobalConfig" section="system.admin/system" weight="130">
@@ -19,24 +18,25 @@
         <link linkId="browserstackConfig">/admin/browserstack/BStackEditConfiguration.action</link>
     </web-item>
 
-    <preBuildAction key="BStackBuildSettings" name="BrowserStack Build Settings"
-            class="com.browserstack.BStackBuildSettings">
-    </preBuildAction>
-
     <preBuildQueuedAction key="BStackEnvironmentConfigurator" name="BrowserStack Environment Configurator"
-                          class="com.browserstack.BStackEnvironmentConfigurator">
+                          class="com.browserstack.bamboo.ci.BStackEnvironmentConfigurator">
     </preBuildQueuedAction>
+    
+    <preBuildAction key="BStackBuildConfigurator" name="BrowserStack Build Configurator" class="com.browserstack.bamboo.ci.action.BuildConfigurator">
+        <resource type="freemarker" name="edit" location="templates/build/BStackBuildEdit.ftl"/>
+        <resource type="freemarker" name="view" location="templates/build/BStackBuildView.ftl"/>
+    </preBuildAction>
 
     <xwork key="BStackActions" name="BrowserStack Plugin Actions">
         <package name="BStackAdmin" extends="admin" namespace="/admin/browserstack">
-            <action name="BStackEditConfiguration" class="com.browserstack.ConfigureBStack" method="edit">
+            <action name="BStackEditConfiguration" class="com.browserstack.bamboo.ci.ConfigureBStack" method="edit">
                 <result name="input" type="freemarker">/templates/ConfigureBStack.ftl</result>
                 <result name="success" type="freemarker">/templates/ConfigureBStack.ftl</result>
                 <result name="error" type="freemarker">/TODOERROR.ftl</result>
                 <param name="mode">edit</param>
             </action>
 
-            <action name="BStackSaveConfiguration" class="com.browserstack.ConfigureBStack" method="save">
+            <action name="BStackSaveConfiguration" class="com.browserstack.bamboo.ci.ConfigureBStack" method="save">
                 <result name="input" type="freemarker">/templates/ConfigureBStack.ftl</result>
                 <result name="success" type="freemarker">/templates/ConfigureBStack.ftl</result>
                 <result name="error" type="freemarker">/TODOERROR.ftl</result>
@@ -44,17 +44,4 @@
 
         </package>
     </xwork>
-
-    
-    <!-- add our web resources -->
-    <web-resource key="browserstack-bamboo-integration-resources" name="browserstack-bamboo-integration Web Resources">
-        <dependency>com.atlassian.auiplugin:ajs</dependency>
-        
-        <resource type="download" name="browserstack-bamboo-integration.css" location="/css/browserstack-bamboo-integration.css"/>
-        <resource type="download" name="browserstack-bamboo-integration.js" location="/js/browserstack-bamboo-integration.js"/>
-        <resource type="download" name="images/" location="/images"/>
-
-        <context>browserstack-bamboo-integration</context>
-    </web-resource>
-    
 </atlassian-plugin>

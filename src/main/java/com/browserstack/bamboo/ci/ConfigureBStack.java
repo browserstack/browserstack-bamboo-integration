@@ -1,4 +1,4 @@
-package com.browserstack;
+package com.browserstack.bamboo.ci;
 
 import com.atlassian.bamboo.ww2.BambooActionSupport;
 import com.atlassian.bamboo.ww2.aware.permissions.GlobalAdminSecurityAware;
@@ -7,7 +7,7 @@ import com.atlassian.bamboo.configuration.AdministrationConfigurationAccessor;
 import com.atlassian.bamboo.configuration.AdministrationConfigurationManager;
 import com.atlassian.bamboo.configuration.AdministrationConfigurationPersister;
 import com.atlassian.sal.api.component.ComponentLocator;
-import com.browserstack.BStackEnvVars;
+import com.browserstack.bamboo.ci.BStackEnvVars;
 import com.atlassian.plugin.PluginAccessor;
 
 
