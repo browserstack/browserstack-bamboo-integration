@@ -6,8 +6,11 @@
 
 ###Development
 Make sure the Atlassian SDK is installed.
+https://developer.atlassian.com/docs/getting-started/set-up-the-atlassian-plugin-sdk-and-build-a-project/install-the-atlassian-sdk-on-a-linux-or-mac-system
 
-Use `atlas-run` to install the plugin in a separate Bamboo instance and start Bamboo on port 6990.
+`clone` this repo and `cd` into it.
+
+Use `atlas-run`, which will install the plugin in a separate Bamboo instance and start it on the default port 6990.
 
 In a separate tab use `atlas-mvn package` to compile after any changes (this will QuickReload the plugin inside the running bamboo instance)
 
