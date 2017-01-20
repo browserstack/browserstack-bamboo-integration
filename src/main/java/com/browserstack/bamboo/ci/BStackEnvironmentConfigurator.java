@@ -13,6 +13,8 @@ import com.atlassian.bamboo.process.EnvironmentVariableAccessorImpl;
 import com.atlassian.bamboo.process.EnvironmentVariableAccessor;
 import com.atlassian.sal.api.component.ComponentLocator;
 import com.browserstack.bamboo.ci.BStackEnvVars;
+import com.browserstack.bamboo.ci.BStackConfigManager;
+
 import org.apache.commons.lang.StringUtils;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +36,8 @@ public class BStackEnvironmentConfigurator extends BaseConfigurableBuildPlugin i
       AdministrationConfiguration adminConfig = administrationConfigurationManager.getAdministrationConfiguration();
       setEnvironmentVariableAccessor(ComponentLocator.getComponent(EnvironmentVariableAccessor.class));
 
+      BStackConfigManager configManager = new BStackConfigManager(adminConfig, buildContext.getBuildDefinition().getCustomConfiguration());
+
       List<TaskDefinition> taskDefinitions = buildContext.getBuildDefinition().getTaskDefinitions();
 
       for (TaskDefinition taskDefinition : taskDefinitions) {
@@ -49,11 +53,20 @@ public class BStackEnvironmentConfigurator extends BaseConfigurableBuildPlugin i
           String modifiedVars = environmentVariableAccessor.joinEnvironmentVariables(origMap);
           configuration.put("environmentVariables", modifiedVars);
       }
+
+
+      // System.out.println("CONFIG MANAGER VALUES");
+
+      // System.out.println("BSTACK_USERNAME = " + configManager.get(BStackEnvVars.BSTACK_USERNAME));
+      // System.out.println("BSTACK_ACCESS_KEY = " + configManager.get(BStackEnvVars.BSTACK_ACCESS_KEY));
+
+      // System.out.println("BSTACK_LOCAL_ENABLED = " + configManager.get(BStackEnvVars.BSTACK_LOCAL_ENABLED));
+      // System.out.println("BSTACK_LOCAL_PATH = " + configManager.get(BStackEnvVars.BSTACK_LOCAL_PATH));
+      // System.out.println("BSTACK_LOCAL_ARGS = " + configManager.get(BStackEnvVars.BSTACK_LOCAL_ARGS));
+
+      injectVariable(buildContext, BStackEnvVars.BSTACK_USERNAME, configManager.get(BStackEnvVars.BSTACK_USERNAME));
+      injectVariable(buildContext, BStackEnvVars.BSTACK_ACCESS_KEY, configManager.get(BStackEnvVars.BSTACK_ACCESS_KEY));
       
-
-      injectVariable(buildContext, BStackEnvVars.BSTACK_USERNAME, adminConfig.getSystemProperty(BStackEnvVars.BSTACK_USERNAME));
-      injectVariable(buildContext, BStackEnvVars.BSTACK_ACCESS_KEY, adminConfig.getSystemProperty(BStackEnvVars.BSTACK_ACCESS_KEY));
-
       return buildContext;
   }
 
