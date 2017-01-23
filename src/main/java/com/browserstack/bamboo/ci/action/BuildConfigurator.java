@@ -76,7 +76,7 @@ public class BuildConfigurator extends BaseConfigurableBuildPlugin implements Cu
         //Add Sleep Here ? Got 'browserstack.local is set to true but BrowserStackLocal binary is not connected error.'
         buildLogger.addBuildLogEntry("BrowserStackLocal Binary started successfully.");
       } catch (Exception e) {
-        buildLogger.addBuildLogEntry("Exception during BrowserStackLocal B : " + e.toString());
+        buildLogger.addBuildLogEntry("Exception while starting the BrowserStackLocal Binary : " + e.toString());
       }
 
     }
