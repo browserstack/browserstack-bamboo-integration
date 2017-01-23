@@ -64,8 +64,8 @@ public class BuildConfigurator extends BaseConfigurableBuildPlugin implements Cu
       BuildLoggerManager buildLoggerManager = (BuildLoggerManager) ContainerManager.getComponent("buildLoggerManager");
       final BuildLogger buildLogger = buildLoggerManager.getLogger(buildContext.getResultKey());
       
-      //Setting to null, as updated configuration was not updated in Singleton instance,because it was already in memory ??
-      BrowserStackLocalSingleton.browserStackLocal = null;
+      //Setting BambooBrowserStackLocal instance to null because updated configuration was not updated in the Singleton instance(because it was already in memory ??)
+      BrowserStackLocalSingleton.reset();
 
       BambooBrowserStackLocal browserStackLocal = BrowserStackLocalSingleton.getBrowserStackLocal(configManager.get(BStackEnvVars.BSTACK_ACCESS_KEY), configManager.get(BStackEnvVars.BSTACK_LOCAL_PATH), configManager.get(BStackEnvVars.BSTACK_LOCAL_ARGS));
 

@@ -4,7 +4,7 @@ import com.browserstack.bamboo.ci.local.BambooBrowserStackLocal;
 
 public class BrowserStackLocalSingleton {
 
-    public static BambooBrowserStackLocal browserStackLocal;
+    private static BambooBrowserStackLocal browserStackLocal;
     
     public static BambooBrowserStackLocal getBrowserStackLocal(String accessKey, String binaryPath, String binaryArgs) {
 
@@ -12,6 +12,10 @@ public class BrowserStackLocalSingleton {
             setBrowserStackLocal(new BambooBrowserStackLocal(accessKey, binaryPath, binaryArgs));
         }
         return BrowserStackLocalSingleton.browserStackLocal;
+    }
+
+    public static void reset() {
+       BrowserStackLocalSingleton.browserStackLocal = null;
     }
 
     public static void setBrowserStackLocal(BambooBrowserStackLocal browserStackLocal) {
