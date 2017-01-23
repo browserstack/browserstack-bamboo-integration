@@ -13,7 +13,7 @@ import com.atlassian.bamboo.v2.build.BuildContext;
 import com.atlassian.bamboo.v2.build.CurrentBuildResult;
 import com.atlassian.bamboo.variable.CustomVariableContext;
 import com.browserstack.bamboo.ci.singletons.BrowserStackLocalSingleton;
-import com.browserstack.local.Local;
+import com.browserstack.bamboo.ci.local.BambooBrowserStackLocal;
 import com.atlassian.spring.container.ContainerManager;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.output.NullOutputStream;
@@ -41,7 +41,7 @@ public class PostBuildAction implements CustomBuildProcessor {
       BuildLoggerManager buildLoggerManager = (BuildLoggerManager) ContainerManager.getComponent("buildLoggerManager");
       final BuildLogger buildLogger = buildLoggerManager.getLogger(buildContext.getResultKey());
       
-      Local browserStackLocal = BrowserStackLocalSingleton.getBrowserStackLocal("","","");
+      BambooBrowserStackLocal browserStackLocal = BrowserStackLocalSingleton.getBrowserStackLocal("","","");
       try {
         browserStackLocal.stop();
         buildLogger.addBuildLogEntry("BrowserStackLocal Binary stopped successfully. ");
