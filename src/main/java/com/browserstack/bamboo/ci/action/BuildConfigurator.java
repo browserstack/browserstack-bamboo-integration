@@ -20,6 +20,12 @@ import org.jetbrains.annotations.NotNull;
 import com.atlassian.bamboo.plan.Plan;
 import javax.annotation.Nullable;
 import com.atlassian.sal.api.component.ComponentLocator;
+import com.browserstack.bamboo.ci.BStackConfigManager;
+import com.browserstack.bamboo.ci.singletons.BrowserStackLocalSingleton;
+import com.browserstack.local.Local;
+import com.atlassian.bamboo.build.BuildLoggerManager;
+import com.atlassian.bamboo.build.logger.BuildLogger;
+
 import java.io.IOException;
 import java.io.PrintStream;
 
@@ -28,33 +34,62 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
+
 
 public class BuildConfigurator extends BaseConfigurableBuildPlugin implements CustomPreBuildAction {
 
     private AdministrationConfigurationAccessor administrationConfigurationAccessor;
+    private BStackConfigManager configManager;
+
 
 
     @Override
     public BuildContext call() {
-      System.out.println(Arrays.asList(buildContext.getBuildDefinition().getCustomConfiguration()));
+      this.configManager = new BStackConfigManager(administrationConfigurationAccessor.getAdministrationConfiguration(), buildContext.getBuildDefinition().getCustomConfiguration());
+      
+      // System.out.println(Arrays.asList(buildContext.getBuildDefinition().getCustomConfiguration()));
+
+      if(StringUtils.isNotBlank(configManager.get(BStackEnvVars.BSTACK_USERNAME)) && StringUtils.isNotBlank(configManager.get(BStackEnvVars.BSTACK_ACCESS_KEY))) {
+
+        if(configManager.get(BStackEnvVars.BSTACK_LOCAL_ENABLED) == "true") {
+          startLocal();
+        }
+      }
+
       return buildContext;
     }
-    
-    @Override
-    protected void populateContextForEdit(final Map<String, Object> context, final BuildConfiguration buildConfiguration, final Plan build) {
-      context.put("BrowserStackEnabled", BrowserStackEnabled());
-      context.put("browserstack_username_key", BStackEnvVars.BSTACK_USERNAME);
-      context.put("browserstack_access_key_key", BStackEnvVars.BSTACK_ACCESS_KEY);
-      context.put("browserstack_local_enabled_key", BStackEnvVars.BSTACK_LOCAL_ENABLED);
-      context.put("browserstack_local_path_key", BStackEnvVars.BSTACK_LOCAL_PATH);
-      context.put("browserstack_local_args_key", BStackEnvVars.BSTACK_LOCAL_ARGS); 
+
+    private void startLocal() {
+      BuildLoggerManager buildLoggerManager = (BuildLoggerManager) ContainerManager.getComponent("buildLoggerManager");
+      final BuildLogger buildLogger = buildLoggerManager.getLogger(buildContext.getResultKey());
+      
+
+      Local browserStackLocal = BrowserStackLocalSingleton.getBrowserStackLocal();
+      HashMap<String, String> bsLocalArgs = new HashMap<String, String>();
+
+      bsLocalArgs.put("key", configManager.get(BStackEnvVars.BSTACK_ACCESS_KEY));
+
+      try {
+        buildLogger.addBuildLogEntry("Starting BrowserStackLocal Binary with the following arguments: " + Arrays.asList(bsLocalArgs));
+        browserStackLocal.start(bsLocalArgs);
+        //Add Sleep Here ? Got 'browserstack.local is set to true but BrowserStackLocal binary is not connected error.'
+        buildLogger.addBuildLogEntry("BrowserStackLocal Binary started successfully.");
+      } catch (Exception e) {
+        buildLogger.addBuildLogEntry("Exception during BrowserStackLocal B : " + e.toString());
+      }
+
     }
 
-    public boolean BrowserStackEnabled() {
-      AdministrationConfiguration adminConfig = administrationConfigurationAccessor.getAdministrationConfiguration();
+    @Override
+    protected void populateContextForEdit(final Map<String, Object> context, final BuildConfiguration buildConfiguration, final Plan build) {
+      String contextPrefix = "custom.browserstack.";
 
-      return (StringUtils.isNotBlank(adminConfig.getSystemProperty(BStackEnvVars.BSTACK_USERNAME))
-              && StringUtils.isNotBlank(adminConfig.getSystemProperty(BStackEnvVars.BSTACK_ACCESS_KEY)));
+      context.put("browserstack_username_key", contextPrefix + BStackEnvVars.BSTACK_USERNAME);
+      context.put("browserstack_access_key_key", contextPrefix + BStackEnvVars.BSTACK_ACCESS_KEY);
+      context.put("browserstack_local_enabled_key", contextPrefix + BStackEnvVars.BSTACK_LOCAL_ENABLED);
+      context.put("browserstack_local_path_key", contextPrefix + BStackEnvVars.BSTACK_LOCAL_PATH);
+      context.put("browserstack_local_args_key", contextPrefix + BStackEnvVars.BSTACK_LOCAL_ARGS); 
     }
 
     public AdministrationConfigurationAccessor getAdministrationConfigurationAccessor() {

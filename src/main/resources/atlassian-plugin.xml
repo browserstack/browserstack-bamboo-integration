@@ -27,6 +27,11 @@
         <resource type="freemarker" name="view" location="templates/build/BStackBuildView.ftl"/>
     </preBuildAction>
 
+    <buildProcessor key="BStackPostRunner" name="BrowserStack Post Runner"
+                          class="com.browserstack.bamboo.ci.action.PostBuildAction">
+        <skipIfFailed>false</skipIfFailed>
+    </buildProcessor>
+
     <xwork key="BStackActions" name="BrowserStack Plugin Actions">
         <package name="BStackAdmin" extends="admin" namespace="/admin/browserstack">
             <action name="BStackEditConfiguration" class="com.browserstack.bamboo.ci.ConfigureBStack" method="edit">

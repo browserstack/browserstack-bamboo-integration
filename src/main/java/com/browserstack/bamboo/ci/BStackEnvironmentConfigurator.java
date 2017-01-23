@@ -53,8 +53,7 @@ public class BStackEnvironmentConfigurator extends BaseConfigurableBuildPlugin i
           String modifiedVars = environmentVariableAccessor.joinEnvironmentVariables(origMap);
           configuration.put("environmentVariables", modifiedVars);
       }
-
-
+      
       // System.out.println("CONFIG MANAGER VALUES");
 
       // System.out.println("BSTACK_USERNAME = " + configManager.get(BStackEnvVars.BSTACK_USERNAME));
@@ -66,7 +65,7 @@ public class BStackEnvironmentConfigurator extends BaseConfigurableBuildPlugin i
 
       injectVariable(buildContext, BStackEnvVars.BSTACK_USERNAME, configManager.get(BStackEnvVars.BSTACK_USERNAME));
       injectVariable(buildContext, BStackEnvVars.BSTACK_ACCESS_KEY, configManager.get(BStackEnvVars.BSTACK_ACCESS_KEY));
-      
+
       return buildContext;
   }
 
