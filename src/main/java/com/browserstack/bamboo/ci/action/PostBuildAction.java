@@ -41,7 +41,7 @@ public class PostBuildAction implements CustomBuildProcessor {
       BuildLoggerManager buildLoggerManager = (BuildLoggerManager) ContainerManager.getComponent("buildLoggerManager");
       final BuildLogger buildLogger = buildLoggerManager.getLogger(buildContext.getResultKey());
       
-      Local browserStackLocal = BrowserStackLocalSingleton.getBrowserStackLocal();
+      Local browserStackLocal = BrowserStackLocalSingleton.getBrowserStackLocal("","","");
       try {
         browserStackLocal.stop();
         buildLogger.addBuildLogEntry("BrowserStackLocal Binary stopped successfully. ");

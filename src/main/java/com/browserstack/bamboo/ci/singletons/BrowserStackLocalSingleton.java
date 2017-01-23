@@ -1,19 +1,20 @@
 package com.browserstack.bamboo.ci.singletons;
 
-import com.browserstack.local.Local;
+import com.browserstack.bamboo.ci.local.BambooBrowserStackLocal;
 
 public class BrowserStackLocalSingleton {
 
-    private static Local browserStackLocal;
+    public static BambooBrowserStackLocal browserStackLocal;
     
-    public static Local getBrowserStackLocal() {
+    public static BambooBrowserStackLocal getBrowserStackLocal(String accessKey, String binaryPath, String binaryArgs) {
+
         if (BrowserStackLocalSingleton.browserStackLocal == null) {
-            setBrowserStackLocal(new Local());
+            setBrowserStackLocal(new BambooBrowserStackLocal(accessKey, binaryPath, binaryArgs));
         }
         return BrowserStackLocalSingleton.browserStackLocal;
     }
 
-    public static void setBrowserStackLocal(Local browserStackLocal) {
+    public static void setBrowserStackLocal(BambooBrowserStackLocal browserStackLocal) {
         BrowserStackLocalSingleton.browserStackLocal = browserStackLocal;
     }
 }

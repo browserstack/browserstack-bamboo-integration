@@ -22,7 +22,7 @@ import javax.annotation.Nullable;
 import com.atlassian.sal.api.component.ComponentLocator;
 import com.browserstack.bamboo.ci.BStackConfigManager;
 import com.browserstack.bamboo.ci.singletons.BrowserStackLocalSingleton;
-import com.browserstack.local.Local;
+import com.browserstack.bamboo.ci.local.BambooBrowserStackLocal;
 import com.atlassian.bamboo.build.BuildLoggerManager;
 import com.atlassian.bamboo.build.logger.BuildLogger;
 
@@ -64,15 +64,13 @@ public class BuildConfigurator extends BaseConfigurableBuildPlugin implements Cu
       BuildLoggerManager buildLoggerManager = (BuildLoggerManager) ContainerManager.getComponent("buildLoggerManager");
       final BuildLogger buildLogger = buildLoggerManager.getLogger(buildContext.getResultKey());
       
+      //Setting to null, as updated configuration was not updated in Singleton instance,because it was already in memory ??
+      BrowserStackLocalSingleton.browserStackLocal = null;
 
-      Local browserStackLocal = BrowserStackLocalSingleton.getBrowserStackLocal();
-      HashMap<String, String> bsLocalArgs = new HashMap<String, String>();
-
-      bsLocalArgs.put("key", configManager.get(BStackEnvVars.BSTACK_ACCESS_KEY));
+      BambooBrowserStackLocal browserStackLocal = BrowserStackLocalSingleton.getBrowserStackLocal(configManager.get(BStackEnvVars.BSTACK_ACCESS_KEY), configManager.get(BStackEnvVars.BSTACK_LOCAL_PATH), configManager.get(BStackEnvVars.BSTACK_LOCAL_ARGS));
 
       try {
-        buildLogger.addBuildLogEntry("Starting BrowserStackLocal Binary with the following arguments: " + Arrays.asList(bsLocalArgs));
-        browserStackLocal.start(bsLocalArgs);
+        browserStackLocal.start();
         //Add Sleep Here ? Got 'browserstack.local is set to true but BrowserStackLocal binary is not connected error.'
         buildLogger.addBuildLogEntry("BrowserStackLocal Binary started successfully.");
       } catch (Exception e) {

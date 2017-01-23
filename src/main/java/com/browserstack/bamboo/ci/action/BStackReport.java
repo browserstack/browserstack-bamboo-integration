@@ -47,13 +47,6 @@ public class BStackReport extends ViewBuildResults {
       System.out.println("getArtifactsDirectory WORKING DIR " + systemInfo.getArtifactsDirectory().toString());
       System.out.println("getBuildPath WORKING DIR " + systemInfo.getBuildPath().toString());
 
-      ResultsSummary summary = resultsSummary();
-
-      if (summary == null) {
-          System.out.println("result summary was null");
-          return ERROR;
-        }
-
 
       ImmutablePlan plan = getImmutablePlan();
       if (plan instanceof ImmutableChain) {
