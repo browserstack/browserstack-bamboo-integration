@@ -27,7 +27,6 @@ public class BambooBrowserStackLocal extends Local {
       this.accesskey = accesskey;
       this.arguments = processLocalArguments((binaryArgs != null) ? binaryArgs.trim() : "");
       this.binaryPath = binaryPath;
-      System.out.println("Initialized binary  " + accesskey + " , " + binaryPath + " , " + binaryArgs);
   }
 
   private String[] processLocalArguments(final String argString) {
@@ -69,17 +68,18 @@ public class BambooBrowserStackLocal extends Local {
               }
           }
       }
-
-      System.out.println("Starting Binary instace finnally with these args : " + Arrays.asList(command));
+      // System.out.println("Starting Binary instance finally with these args : " + Arrays.asList(command));
       return super.runCommand(command);
   }
 
   public void start() throws Exception {
       Map<String, String> localOptions = new HashMap<String, String>();
       localOptions.put("key", accesskey);
-      localOptions.put("binarypath", binaryPath);
 
-      System.out.println("Starting BrowserStackLocal Binary with the following arguments: " + Arrays.asList(localOptions));
+      if(StringUtils.isNotBlank(binaryPath)) {
+        localOptions.put("binarypath", binaryPath);
+      }
+
       super.start(localOptions);
   }
 
