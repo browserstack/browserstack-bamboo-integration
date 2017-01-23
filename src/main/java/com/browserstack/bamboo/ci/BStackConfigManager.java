@@ -25,9 +25,9 @@ public class BStackConfigManager {
     String buildValue = buildConfig.get("custom.browserstack." + key);
     
     if (overrideAdmin) {
-      return buildValue;
+      return buildValue.trim();
     } else {
-      return adminValue;
+      return adminValue.trim();
     }
   }
 }

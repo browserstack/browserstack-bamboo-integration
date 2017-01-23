@@ -69,11 +69,14 @@ public class BuildConfigurator extends BaseConfigurableBuildPlugin implements Cu
       String accessKey = configManager.get(BStackEnvVars.BSTACK_ACCESS_KEY);
       String localPath = configManager.get(BStackEnvVars.BSTACK_LOCAL_PATH);
       String localArgs = configManager.get(BStackEnvVars.BSTACK_LOCAL_ARGS);
-
       BambooBrowserStackLocal browserStackLocal = BrowserStackLocalSingleton.getBrowserStackLocal(accessKey, localPath, localArgs);
 
+      if(StringUtils.isNotBlank(localPath)) {
+        localPath = localPath + " ";
+      }
+      
       try {
-        buildLogger.addBuildLogEntry("Starting BrowserStackLocal Binary " + localPath + " with args " + localArgs);
+        buildLogger.addBuildLogEntry("Starting BrowserStackLocal Binary " + localPath + "with args " + localArgs);
         browserStackLocal.start();
         //Add Sleep Here ? Got 'browserstack.local is set to true but BrowserStackLocal binary is not connected error.'
         buildLogger.addBuildLogEntry("BrowserStackLocal Binary started successfully.");
