@@ -14,6 +14,8 @@ import com.atlassian.bamboo.process.EnvironmentVariableAccessor;
 import com.atlassian.sal.api.component.ComponentLocator;
 import com.browserstack.bamboo.ci.BStackEnvVars;
 import com.browserstack.bamboo.ci.BStackConfigManager;
+import com.browserstack.bamboo.ci.singletons.BrowserStackLocalSingleton;
+import com.browserstack.bamboo.ci.local.BambooBrowserStackLocal;
 
 import org.apache.commons.lang.StringUtils;
 import java.util.List;
@@ -37,23 +39,17 @@ public class BStackEnvironmentConfigurator extends BaseConfigurableBuildPlugin i
       setEnvironmentVariableAccessor(ComponentLocator.getComponent(EnvironmentVariableAccessor.class));
 
       BStackConfigManager configManager = new BStackConfigManager(adminConfig, buildContext.getBuildDefinition().getCustomConfiguration());
-
-      List<TaskDefinition> taskDefinitions = buildContext.getBuildDefinition().getTaskDefinitions();
-
-      for (TaskDefinition taskDefinition : taskDefinitions) {
-          Map<String, String> configuration = taskDefinition.getConfiguration();
-          String originalEnv = StringUtils.defaultString((String) configuration.get("environmentVariables"));
-          Map<String, String> origMap = environmentVariableAccessor.splitEnvironmentAssignments(originalEnv, false);        
-          System.out.println(Arrays.asList(origMap));
-
-          origMap.put(BStackEnvVars.BSTACK_USERNAME, "${bamboo." + BStackEnvVars.BSTACK_USERNAME + "}");
-          origMap.put(BStackEnvVars.BSTACK_ACCESS_KEY, "${bamboo." + BStackEnvVars.BSTACK_ACCESS_KEY + "}");
-          environmentVariableAccessor = new EnvironmentVariableAccessorImpl(null, null);
-
-          String modifiedVars = environmentVariableAccessor.joinEnvironmentVariables(origMap);
-          configuration.put("environmentVariables", modifiedVars);
-      }
       
+
+      if(configManager.hasCredentials()) {
+        addEnvVarsToPlan();
+
+        injectVariable(buildContext, BStackEnvVars.BSTACK_USERNAME, configManager.get(BStackEnvVars.BSTACK_USERNAME));
+        injectVariable(buildContext, BStackEnvVars.BSTACK_ACCESS_KEY, configManager.get(BStackEnvVars.BSTACK_ACCESS_KEY));
+        injectVariable(buildContext, BStackEnvVars.BSTACK_LOCAL_ENABLED, configManager.get(BStackEnvVars.BSTACK_LOCAL_ENABLED));
+      }
+
+
       // System.out.println("CONFIG MANAGER VALUES");
 
       // System.out.println("BSTACK_USERNAME = " + configManager.get(BStackEnvVars.BSTACK_USERNAME));
@@ -63,13 +59,33 @@ public class BStackEnvironmentConfigurator extends BaseConfigurableBuildPlugin i
       // System.out.println("BSTACK_LOCAL_PATH = " + configManager.get(BStackEnvVars.BSTACK_LOCAL_PATH));
       // System.out.println("BSTACK_LOCAL_ARGS = " + configManager.get(BStackEnvVars.BSTACK_LOCAL_ARGS));
 
-      injectVariable(buildContext, BStackEnvVars.BSTACK_USERNAME, configManager.get(BStackEnvVars.BSTACK_USERNAME));
-      injectVariable(buildContext, BStackEnvVars.BSTACK_ACCESS_KEY, configManager.get(BStackEnvVars.BSTACK_ACCESS_KEY));
-
+      
       return buildContext;
   }
 
+  private void addEnvVarsToPlan() {
+    List<TaskDefinition> taskDefinitions = buildContext.getBuildDefinition().getTaskDefinitions();
+
+    for (TaskDefinition taskDefinition : taskDefinitions) {
+        Map<String, String> configuration = taskDefinition.getConfiguration();
+        String originalEnv = StringUtils.defaultString((String) configuration.get("environmentVariables"));
+        Map<String, String> origMap = environmentVariableAccessor.splitEnvironmentAssignments(originalEnv, false);        
+
+        System.out.println("Environment Variables Already Set = " + Arrays.asList(origMap));
+
+        origMap.put(BStackEnvVars.BSTACK_USERNAME, "${bamboo." + BStackEnvVars.BSTACK_USERNAME + "}");
+        origMap.put(BStackEnvVars.BSTACK_ACCESS_KEY, "${bamboo." + BStackEnvVars.BSTACK_ACCESS_KEY + "}");
+        origMap.put(BStackEnvVars.BSTACK_LOCAL_ENABLED, "${bamboo." + BStackEnvVars.BSTACK_LOCAL_ENABLED + "}");
+        origMap.put(BStackEnvVars.BSTACK_LOCAL_IDENTIFIER, "${bamboo." + BStackEnvVars.BSTACK_LOCAL_IDENTIFIER + "}");
+
+        environmentVariableAccessor = new EnvironmentVariableAccessorImpl(null, null);
+        String modifiedVars = environmentVariableAccessor.joinEnvironmentVariables(origMap);
+        configuration.put("environmentVariables", modifiedVars);
+    }
+  }
+
   private void injectVariable(BuildContext buildContext, String key, String value) {
+      System.out.println("Injecting " + key + ": " + value);
       VariableContext variableContext =  buildContext.getVariableContext();
       variableContext.addLocalVariable(key, value);
       VariableDefinitionContext variableDefinitionContext = variableContext.getEffectiveVariables().get(key);

@@ -44,7 +44,7 @@ public class PostBuildAction implements CustomBuildProcessor {
       BambooBrowserStackLocal browserStackLocal = BrowserStackLocalSingleton.getBrowserStackLocal("","","");
       try {
         browserStackLocal.stop();
-        buildLogger.addBuildLogEntry("BrowserStackLocal Binary stopped successfully. ");
+        buildLogger.addBuildLogEntry("BrowserStackLocal Binary stopped successfully. LocalIdentifier: " + browserStackLocal.getLocalIdentifier());
       } catch (Exception e) {
         buildLogger.addBuildLogEntry("Exception while stopping the BrowserStackLocal Binary : " + e.toString());
       }
