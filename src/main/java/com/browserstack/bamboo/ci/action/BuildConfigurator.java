@@ -78,8 +78,13 @@ public class BuildConfigurator extends BaseConfigurableBuildPlugin implements Cu
         localPath = localPath + " ";
       }
 
+      if(StringUtils.isNotBlank(localArgs)) {
+        localArgs = "with args " + localArgs;
+      }
+
+
       try {
-        buildLogger.addBuildLogEntry("Starting BrowserStackLocal Binary " + localPath + "with args " + localArgs);
+        buildLogger.addBuildLogEntry("Starting BrowserStackLocal Binary " + localPath + localArgs);
         browserStackLocal.start();
         //Add Sleep Here ? Got 'browserstack.local is set to true but BrowserStackLocal binary is not connected error.'
         buildLogger.addBuildLogEntry("BrowserStackLocal Binary started successfully. LocalIdentifier: " + browserStackLocal.getLocalIdentifier());
