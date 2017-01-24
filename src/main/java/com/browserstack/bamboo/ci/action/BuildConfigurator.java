@@ -6,38 +6,20 @@ import com.atlassian.bamboo.variable.VariableType;
 import com.atlassian.bamboo.build.CustomPreBuildAction;
 import com.atlassian.bamboo.v2.build.BaseConfigurableBuildPlugin;
 import com.atlassian.bamboo.v2.build.BuildContext;
-import com.atlassian.bamboo.variable.CustomVariableContext;
 import com.atlassian.bamboo.ww2.actions.build.admin.create.BuildConfiguration;
 import com.atlassian.bamboo.configuration.AdministrationConfiguration;
 import com.atlassian.bamboo.configuration.AdministrationConfigurationAccessor;
 import com.browserstack.bamboo.ci.BStackEnvVars;
 import com.atlassian.spring.container.ContainerManager;
-import com.opensymphony.xwork2.ActionContext;
-import com.opensymphony.xwork2.util.ValueStack;
-import org.apache.commons.io.output.NullOutputStream;
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.NumberUtils;
-import org.apache.log4j.Logger;
-import org.jetbrains.annotations.NotNull;
 import com.atlassian.bamboo.plan.Plan;
-import javax.annotation.Nullable;
-import com.atlassian.sal.api.component.ComponentLocator;
 import com.browserstack.bamboo.ci.BStackConfigManager;
 import com.browserstack.bamboo.ci.singletons.BrowserStackLocalSingleton;
 import com.browserstack.bamboo.ci.local.BambooBrowserStackLocal;
 import com.atlassian.bamboo.build.BuildLoggerManager;
 import com.atlassian.bamboo.build.logger.BuildLogger;
-
-import java.io.IOException;
-import java.io.PrintStream;
-
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 
 
 public class BuildConfigurator extends BaseConfigurableBuildPlugin implements CustomPreBuildAction {

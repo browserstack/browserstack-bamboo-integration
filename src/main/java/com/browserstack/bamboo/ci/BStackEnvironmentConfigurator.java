@@ -16,7 +16,6 @@ import com.browserstack.bamboo.ci.BStackEnvVars;
 import com.browserstack.bamboo.ci.BStackConfigManager;
 import com.browserstack.bamboo.ci.singletons.BrowserStackLocalSingleton;
 import com.browserstack.bamboo.ci.local.BambooBrowserStackLocal;
-
 import org.apache.commons.lang.StringUtils;
 import java.util.List;
 import java.util.Map;
