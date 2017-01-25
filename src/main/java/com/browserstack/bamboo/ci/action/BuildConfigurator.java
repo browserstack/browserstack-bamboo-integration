@@ -36,10 +36,12 @@ public class BuildConfigurator extends BaseConfigurableBuildPlugin implements Cu
       // System.out.println(Arrays.asList(buildContext.getBuildDefinition().getCustomConfiguration()));
 
       if(configManager.hasCredentials()) {
-
+        System.out.println("FOUND BS CREDENTIALS"); 
         if(configManager.localEnabled()) {
           startLocal();
         }
+      } else {
+        System.out.println("BS CREDENTIALS NOT FOUND");  
       }
 
       return buildContext;

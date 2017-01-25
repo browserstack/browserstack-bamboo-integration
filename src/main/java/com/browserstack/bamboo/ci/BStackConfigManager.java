@@ -25,13 +25,15 @@ public class BStackConfigManager {
   }
 
   public boolean localEnabled() {
-    return (get(BStackEnvVars.BSTACK_LOCAL_ENABLED) == "true");
+    return (get(BStackEnvVars.BSTACK_LOCAL_ENABLED) != null && get(BStackEnvVars.BSTACK_LOCAL_ENABLED).equals("true"));
   }
 
   public String get(String key) {
     String adminValue = adminConfig.getSystemProperty(key);
     String buildValue = buildConfig.get("custom.browserstack." + key);
     
+    // System.out.println("Admin value = " + ((adminValue == null)?"nil":adminValue) + " BuildValue = " + ((buildValue == null)?"nil":buildValue) + "Override Admin " + overrideAdmin);
+
     if (overrideAdmin) {
       return (buildValue == null) ? null : buildValue.trim();
     } else {
