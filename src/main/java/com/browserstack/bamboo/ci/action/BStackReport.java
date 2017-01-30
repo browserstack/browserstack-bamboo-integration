@@ -7,11 +7,16 @@ import com.atlassian.bamboo.build.ViewBuildResults;
 import com.atlassian.bamboo.configuration.SystemInfo;
 import com.atlassian.spring.container.LazyComponentReference;
 import java.util.List;
+import java.util.Map;
+import java.util.ArrayList;
+
 import com.browserstack.bamboo.ci.lib.XmlBStackReportParser;
-
-
+import com.browserstack.bamboo.ci.lib.BStackSession;
+import com.browserstack.bamboo.ci.lib.BStackJUnitSessionMapper;
 
 public class BStackReport extends ViewBuildResults {
+
+    private List<BStackSession> bStackSessions;
 
     @Override
     public String doDefault() throws Exception {
@@ -28,9 +33,16 @@ public class BStackReport extends ViewBuildResults {
 
           XmlBStackReportParser bstackParser = new XmlBStackReportParser(buildWorkingDirectory + "/" + job.getKey());
           bstackParser.process();
+
+          BStackJUnitSessionMapper sessionMapper = new BStackJUnitSessionMapper(buildWorkingDirectory + "/" + job.getKey(), bstackParser.getTestSessionMap());
+          bStackSessions = sessionMapper.parseAndMapJUnitXMLReports();
         }
       }
 
       return super.doDefault();
+    }
+
+    public List<BStackSession> getSessions() {
+      return bStackSessions;
     }
 }

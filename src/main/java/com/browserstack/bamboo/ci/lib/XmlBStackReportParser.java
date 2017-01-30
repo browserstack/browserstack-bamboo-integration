@@ -49,6 +49,7 @@ public class XmlBStackReportParser {
                 testSessionMap.putAll(parsedIds);
             }
         }
+        System.out.println(testSessionMap);
     }
 
     //http://stackoverflow.com/questions/794381/how-to-find-files-that-match-a-wildcard-string-in-java
@@ -93,7 +94,10 @@ public class XmlBStackReportParser {
                 }
             }
         }
+        return testSessionMap;
+    }
 
+    public Map<String,String> getTestSessionMap() {
         return testSessionMap;
     }
 }
