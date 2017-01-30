@@ -57,7 +57,7 @@ public class BStackJUnitSessionMapper {
         System.out.println("Searching for testId : " + testId);
 
         if (testSessionMap.containsKey(testId)) {
-            bStackSessions.add(new BStackSession(testCase.fullName(),"BS-SESSION-ID:" + testSessionMap.get(testId)));
+            bStackSessions.add(new BStackSession(testCase.fullName(), testSessionMap.get(testId)));
         }
       }
     }
