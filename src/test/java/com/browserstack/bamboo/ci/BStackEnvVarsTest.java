@@ -4,7 +4,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 /*
-  Tests to ensure that the names of enivronment variables remain unchanged in the future.
+  Tests to ensure that the names of enivronment variables remain unchanged in the future, which will break Test suites dependent on these.
 */
 
 public class BStackEnvVarsTest {

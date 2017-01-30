@@ -1,29 +1,36 @@
 package com.browserstack.bamboo.ci.action;
 
 import com.atlassian.bamboo.plan.cache.ImmutableChain;
+import com.atlassian.bamboo.plan.cache.ImmutableJob;
 import com.atlassian.bamboo.plan.cache.ImmutablePlan;
 import com.atlassian.bamboo.build.ViewBuildResults;
 import com.atlassian.bamboo.configuration.SystemInfo;
 import com.atlassian.spring.container.LazyComponentReference;
+import java.util.List;
+import com.browserstack.bamboo.ci.lib.XmlBStackReportParser;
+
+
 
 public class BStackReport extends ViewBuildResults {
 
     @Override
     public String doDefault() throws Exception {
       LazyComponentReference<SystemInfo> systemInfoReference = new LazyComponentReference<SystemInfo>("systemInfo"); 
-
       SystemInfo systemInfo = systemInfoReference.get();
 
-      System.out.println("BUILD WORKING DIR " + systemInfo.getBuildWorkingDirectory().toString());
-      System.out.println("Current WORKING DIR " + systemInfo.getCurrentDirectory().toString());
-      System.out.println("getArtifactsDirectory WORKING DIR " + systemInfo.getArtifactsDirectory().toString());
-      System.out.println("getBuildPath WORKING DIR " + systemInfo.getBuildPath().toString());
-
+      String buildWorkingDirectory = systemInfo.getBuildWorkingDirectory();
 
       ImmutablePlan plan = getImmutablePlan();
       if (plan instanceof ImmutableChain) {
-        System.out.println("HA bro!");
+        List<ImmutableChain> chains = cachedPlanManager.getPlansByProject(getImmutablePlan().getProject(), ImmutableChain.class);
+        for (ImmutableJob job : ((ImmutableChain) plan).getAllJobs()) {
+          System.out.println("JOB KEY " + job.getKey());
+
+          XmlBStackReportParser bstackParser = new XmlBStackReportParser(buildWorkingDirectory + "/" + job.getKey());
+          bstackParser.process();
+        }
       }
+
       return super.doDefault();
     }
 }
