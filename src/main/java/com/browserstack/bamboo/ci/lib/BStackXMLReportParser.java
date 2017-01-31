@@ -22,13 +22,13 @@ import org.apache.tools.ant.DirectoryScanner;
  * @author Shirish Kamath
  * @author Anirudha Khanna
  */
-public class XmlBStackReportParser {
+public class BStackXMLReportParser {
 
     private String baseDir;
     private Map<String, String> testSessionMap;
     private static final String pattern = "**/browserstack-reports/REPORT-*.xml";
 
-    public XmlBStackReportParser(String baseDir) {
+    public BStackXMLReportParser(String baseDir) {
         this.baseDir = baseDir;
         this.testSessionMap = new HashMap<String, String>();
     }

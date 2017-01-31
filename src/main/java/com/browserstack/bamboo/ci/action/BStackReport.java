@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
 
-import com.browserstack.bamboo.ci.lib.XmlBStackReportParser;
+import com.browserstack.bamboo.ci.lib.BStackXMLReportParser;
 import com.browserstack.bamboo.ci.lib.BStackSession;
 import com.browserstack.bamboo.ci.lib.BStackJUnitSessionMapper;
 
@@ -24,18 +24,17 @@ public class BStackReport extends ViewBuildResults {
       SystemInfo systemInfo = systemInfoReference.get();
 
       String buildWorkingDirectory = systemInfo.getBuildWorkingDirectory();
+      bStackSessions = new ArrayList<BStackSession>();
 
       ImmutablePlan plan = getImmutablePlan();
       if (plan instanceof ImmutableChain) {
-        List<ImmutableChain> chains = cachedPlanManager.getPlansByProject(getImmutablePlan().getProject(), ImmutableChain.class);
         for (ImmutableJob job : ((ImmutableChain) plan).getAllJobs()) {
-          System.out.println("JOB KEY " + job.getKey());
-
-          XmlBStackReportParser bstackParser = new XmlBStackReportParser(buildWorkingDirectory + "/" + job.getKey());
-          bstackParser.process();
-
-          BStackJUnitSessionMapper sessionMapper = new BStackJUnitSessionMapper(buildWorkingDirectory + "/" + job.getKey(), bstackParser.getTestSessionMap());
-          bStackSessions = sessionMapper.parseAndMapJUnitXMLReports();
+          AddBStackSessions(buildWorkingDirectory + "/" + job.getKey());
+        }
+      } else {
+        if(plan instanceof ImmutableJob) {
+          ImmutableJob job = (ImmutableJob) plan;
+          AddBStackSessions(buildWorkingDirectory + "/" + job.getKey());
         }
       }
 
@@ -43,6 +42,16 @@ public class BStackReport extends ViewBuildResults {
     }
 
     public List<BStackSession> getSessions() {
+
       return bStackSessions;
+    }
+
+    private void AddBStackSessions(String directoryToScan) {
+
+      BStackXMLReportParser bStackParser = new BStackXMLReportParser(directoryToScan);
+      bStackParser.process();
+      BStackJUnitSessionMapper sessionMapper = new BStackJUnitSessionMapper(directoryToScan, bStackParser.getTestSessionMap());
+
+      bStackSessions.addAll(sessionMapper.parseAndMapJUnitXMLReports());
     }
 }
