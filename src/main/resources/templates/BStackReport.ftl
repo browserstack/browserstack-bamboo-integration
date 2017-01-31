@@ -2,15 +2,14 @@
     /* Style the buttons that are used to open and close the accordion panel */
     td,th {
         padding: 10px;
+        border-bottom: 1px solid grey;
     }
 
     td.accordion {
-        background-color: #eee;
         color: #444;
         cursor: pointer;
         padding: 0px;
         text-align: center;
-        border: none;
         outline: none;
         transition: .4s;
         vertical-align: middle;
@@ -36,12 +35,11 @@
       <th align="center">Logs</th>
     </tr>
     [#list sessions as bStackSession]
-        <tr style="background-color: #eee;">
-
+        <tr>
             <td class = "accordion">
                 <h3>+</h3>
             </td>
-            
+
             <td align="left">
                 ${bStackSession.getTestCaseName()}
             </td>
@@ -53,7 +51,7 @@
             </td>
         </tr>
         <tr>
-            <td colspan="100%" style="padding:0px;">
+            <td colspan="100%" style="padding:0px; border-bottom: 0;">
                 <div style="display:none;">
                     <iframe width="100%" height="500px" src="" data-src="${bStackSession.getSession().getPublicUrl()}" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
                 </div>
