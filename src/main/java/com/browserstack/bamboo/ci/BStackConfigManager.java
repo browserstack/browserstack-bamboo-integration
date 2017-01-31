@@ -28,6 +28,14 @@ public class BStackConfigManager {
     return (get(BStackEnvVars.BSTACK_LOCAL_ENABLED) != null && get(BStackEnvVars.BSTACK_LOCAL_ENABLED).equals("true"));
   }
 
+  public String getUsername() {
+    return get(BStackEnvVars.BSTACK_USERNAME);
+  }
+
+  public String getAccessKey(){
+    return get(BStackEnvVars.BSTACK_ACCESS_KEY); 
+  }
+
   public String get(String key) {
     String adminValue = adminConfig.getSystemProperty(key);
     String buildValue = buildConfig.get("custom.browserstack." + key);

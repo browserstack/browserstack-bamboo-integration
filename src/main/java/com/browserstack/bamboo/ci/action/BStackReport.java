@@ -6,6 +6,8 @@ import com.atlassian.bamboo.plan.cache.ImmutablePlan;
 import com.atlassian.bamboo.build.ViewBuildResults;
 import com.atlassian.bamboo.configuration.SystemInfo;
 import com.atlassian.spring.container.LazyComponentReference;
+import com.atlassian.bamboo.configuration.AdministrationConfiguration;
+import com.atlassian.bamboo.configuration.AdministrationConfigurationAccessor;
 import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
@@ -13,10 +15,16 @@ import java.util.ArrayList;
 import com.browserstack.bamboo.ci.lib.BStackXMLReportParser;
 import com.browserstack.bamboo.ci.lib.BStackSession;
 import com.browserstack.bamboo.ci.lib.BStackJUnitSessionMapper;
+import com.browserstack.automate.AutomateClient;
+import com.browserstack.bamboo.ci.BStackConfigManager;
+
 
 public class BStackReport extends ViewBuildResults {
 
     private List<BStackSession> bStackSessions;
+
+    private AdministrationConfigurationAccessor administrationConfigurationAccessor;
+
 
     @Override
     public String doDefault() throws Exception {
@@ -29,12 +37,12 @@ public class BStackReport extends ViewBuildResults {
       ImmutablePlan plan = getImmutablePlan();
       if (plan instanceof ImmutableChain) {
         for (ImmutableJob job : ((ImmutableChain) plan).getAllJobs()) {
-          AddBStackSessions(buildWorkingDirectory + "/" + job.getKey());
+          AddBStackSessions(buildWorkingDirectory, job);
         }
       } else {
         if(plan instanceof ImmutableJob) {
           ImmutableJob job = (ImmutableJob) plan;
-          AddBStackSessions(buildWorkingDirectory + "/" + job.getKey());
+          AddBStackSessions(buildWorkingDirectory, job);
         }
       }
 
@@ -46,12 +54,28 @@ public class BStackReport extends ViewBuildResults {
       return bStackSessions;
     }
 
-    private void AddBStackSessions(String directoryToScan) {
+    private void AddBStackSessions(String baseDirectory, ImmutableJob job) {
+      String directoryToScan = baseDirectory + "/" + job.getKey();
+      
+      BStackConfigManager configManager = new BStackConfigManager(administrationConfigurationAccessor.getAdministrationConfiguration(), job.getBuildDefinition().getCustomConfiguration());
+      AutomateClient automateClient = null;
+
+      if(configManager.hasCredentials()) {
+        automateClient = new AutomateClient(configManager.getUsername(), configManager.getAccessKey());
+      }
 
       BStackXMLReportParser bStackParser = new BStackXMLReportParser(directoryToScan);
       bStackParser.process();
-      BStackJUnitSessionMapper sessionMapper = new BStackJUnitSessionMapper(directoryToScan, bStackParser.getTestSessionMap());
+      BStackJUnitSessionMapper sessionMapper = new BStackJUnitSessionMapper(directoryToScan, bStackParser.getTestSessionMap(), automateClient);
 
       bStackSessions.addAll(sessionMapper.parseAndMapJUnitXMLReports());
+    }
+
+    public AdministrationConfigurationAccessor getAdministrationConfigurationAccessor() {
+        return administrationConfigurationAccessor;
+    }
+
+    public void setAdministrationConfigurationAccessor(AdministrationConfigurationAccessor administrationConfigurationAccessor) {
+        this.administrationConfigurationAccessor = administrationConfigurationAccessor;
     }
 }

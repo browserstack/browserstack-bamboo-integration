@@ -15,20 +15,25 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import java.util.HashMap;
-
+import com.browserstack.automate.AutomateClient;
+import com.browserstack.automate.model.Session;
+import com.browserstack.automate.exception.AutomateException;
+import com.browserstack.automate.exception.SessionNotFound;
 
 public class BStackJUnitSessionMapper {
 
   private String baseDir;
   private Map<String, String> testSessionMap;
+  private AutomateClient automateClient;
   public List<BStackSession> bStackSessions;
   private static final String pattern = "**/surefire-reports/TEST-*.xml";
 
 
-  public BStackJUnitSessionMapper(String baseDir, Map<String, String> testSessionMap) {
+  public BStackJUnitSessionMapper(String baseDir, Map<String, String> testSessionMap, AutomateClient automateClient) {
     this.baseDir = baseDir;
     this.testSessionMap = testSessionMap;
     this.bStackSessions = new ArrayList<BStackSession>();
+    this.automateClient = automateClient;
   }
 
   public List<BStackSession> parseAndMapJUnitXMLReports() {
@@ -57,7 +62,18 @@ public class BStackJUnitSessionMapper {
         System.out.println("Searching for testId : " + testId);
 
         if (testSessionMap.containsKey(testId)) {
-            bStackSessions.add(new BStackSession(testCase.fullName(), testSessionMap.get(testId)));
+            Session activeSession = null;
+            String bStackSessionId = testSessionMap.get(testId);
+            try {
+                activeSession = automateClient.getSession(bStackSessionId);
+            } catch (AutomateException aex) {
+              System.out.println("Exception while fetching session from BrowserStack " + aex.toString());
+            } catch (SessionNotFound snfEx) {
+              System.out.println("Exception while fetching session from BrowserStack " + snfEx.toString());
+            } 
+
+            System.out.println("Sesssion Fetched PUBLIC : " + activeSession.getPublicUrl());
+            bStackSessions.add(new BStackSession(testCase.fullName(), bStackSessionId, activeSession));
         }
       }
     }

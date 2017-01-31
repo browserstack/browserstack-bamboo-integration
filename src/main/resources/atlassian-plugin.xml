@@ -40,7 +40,7 @@
 
     <web-item key="BStackTestResult" name="BStack" section="results.subMenu/results" weight="50">
         <description key="BStackReport.desc">Provides details of sessions run on BrowserStack</description>
-        <label key="View on BrowserStack"/>
+        <label key="BrowserStack Report"/>
         <link linkId="BStackPlanDetails">/build/result/viewBStackReport.action?buildKey=${buildKey}&amp;buildNumber=${buildNumber}</link>
     </web-item>
 
@@ -63,8 +63,8 @@
 
          <package name="BStackResult" extends="buildView">
             <action name="viewBStackReport" class="com.browserstack.bamboo.ci.action.BStackReport" method="default">
-                <result name="input" type="freemarker">/templates/reports/sample.ftl</result>
-                <result name="success" type="freemarker">/templates/reports/sample.ftl</result>
+                <result name="input" type="freemarker">/templates/BStackReport.ftl</result>
+                <result name="success" type="freemarker">/templates/BStackReport.ftl</result>
                 <result name="error" type="freemarker">/error.ftl</result>
             </action>
         </package>
