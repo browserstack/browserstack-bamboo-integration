@@ -32,7 +32,7 @@
       <th></th>
       <th align="left">Test Case</th>
       <th align="center">Status</th>
-      <th align="center">Logs</th>
+      <th align="center">Selenium Logs</th>
     </tr>
     [#list sessions as bStackSession]
         <tr>
