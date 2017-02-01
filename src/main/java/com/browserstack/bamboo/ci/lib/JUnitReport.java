@@ -7,11 +7,14 @@ public class JUnitReport {
   public String classname;
   public String duration;
   public String name;
+  public String status;
 
-  public JUnitReport(String classname, String name, String duration) {
+
+  public JUnitReport(String classname, String name, String duration, String status) {
     this.classname = classname;
     this.name = name;
     this.duration = duration;
+    this.status = status;
   }
 
   public String strippedName() {

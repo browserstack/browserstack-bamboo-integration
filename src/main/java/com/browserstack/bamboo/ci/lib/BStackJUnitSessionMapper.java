@@ -64,16 +64,19 @@ public class BStackJUnitSessionMapper {
         if (testSessionMap.containsKey(testId)) {
             Session activeSession = null;
             String bStackSessionId = testSessionMap.get(testId);
+            String exceptionEncountered = "";
+
             try {
                 activeSession = automateClient.getSession(bStackSessionId);
             } catch (AutomateException aex) {
               System.out.println("Exception while fetching session from BrowserStack " + aex.toString());
+              exceptionEncountered = aex.toString();
             } catch (SessionNotFound snfEx) {
               System.out.println("Exception while fetching session from BrowserStack " + snfEx.toString());
-            } 
+              exceptionEncountered = snfEx.toString();
+            }
 
-            System.out.println("Sesssion Fetched PUBLIC : " + activeSession.getPublicUrl());
-            bStackSessions.add(new BStackSession(testCase.fullName(), bStackSessionId, activeSession));
+            bStackSessions.add(new BStackSession(testCase, bStackSessionId, activeSession, exceptionEncountered));
         }
       }
     }
@@ -110,7 +113,20 @@ public class BStackJUnitSessionMapper {
           String name = el.hasAttribute("name") ? el.getAttribute("name") : "";
           String classname = el.hasAttribute("classname") ? el.getAttribute("classname") : "";
           String duration = el.hasAttribute("time") ? el.getAttribute("time") : "";
-          testCases.add(new JUnitReport(classname, name, duration));
+          String status = "Pass";
+
+          NodeList failureNodes = el.getElementsByTagName("failure");
+          NodeList errorNodes = el.getElementsByTagName("error");
+
+          if (failureNodes.getLength() > 0 && failureNodes.item(0).getNodeType() == Node.ELEMENT_NODE) {
+              status = "Fail";
+          }
+
+          if (errorNodes.getLength() > 0 && errorNodes.item(0).getNodeType() == Node.ELEMENT_NODE) {
+              status = "Error";
+          }
+
+          testCases.add(new JUnitReport(classname, name, duration, status));
         }
       }
     }
