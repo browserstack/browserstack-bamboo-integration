@@ -10,7 +10,13 @@ import com.atlassian.sal.api.component.ComponentLocator;
 import com.browserstack.bamboo.ci.BStackEnvVars;
 import com.atlassian.plugin.PluginAccessor;
 
+/*
+ Global BrowserStack configuration. Available in Bamboo Administration section.
+*/
 
+/**
+ * @author Pulkit Sharma
+ */
 public class ConfigureBStack extends BambooActionSupport implements GlobalAdminSecurityAware
 {
 

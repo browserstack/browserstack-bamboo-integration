@@ -4,6 +4,13 @@ import com.browserstack.bamboo.ci.BStackEnvVars;
 import org.apache.commons.lang.StringUtils;
 import java.util.Map;
 
+/*
+  Handles the BrowserStack Configuration. Gives the appropriate values based on the Global Config(Admin Configuration) or the Job Configuration(Build Configuration)
+*/
+
+/**
+ * @author Pulkit Sharma
+*/
 public class BStackConfigManager {
 
   private AdministrationConfiguration adminConfig;
@@ -40,8 +47,6 @@ public class BStackConfigManager {
     String adminValue = adminConfig.getSystemProperty(key);
     String buildValue = buildConfig.get("custom.browserstack." + key);
     
-    // System.out.println("Admin value = " + ((adminValue == null)?"nil":adminValue) + " BuildValue = " + ((buildValue == null)?"nil":buildValue) + "Override Admin " + overrideAdmin);
-
     if (overrideAdmin) {
       return (buildValue == null) ? null : buildValue.trim();
     } else {

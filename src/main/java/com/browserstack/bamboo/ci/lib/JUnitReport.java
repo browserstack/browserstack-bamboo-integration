@@ -2,6 +2,9 @@ package com.browserstack.bamboo.ci.lib;
 
 import org.apache.commons.lang.StringUtils;
 
+/**
+ * @author Pulkit Sharma
+ */
 public class JUnitReport {
 
   public String classname;

@@ -18,7 +18,13 @@ import com.browserstack.bamboo.ci.lib.BStackJUnitSessionMapper;
 import com.browserstack.automate.AutomateClient;
 import com.browserstack.bamboo.ci.BStackConfigManager;
 
+/*
+  invoked when accessing the BrowserStack Report tab. It will try to parse reports present in the Build's working directory in order to create mappings from Test Cases to BrowserStack sessions.
+*/
 
+/**
+ * @author Pulkit Sharma
+ */
 public class BStackReport extends ViewBuildResults {
 
     private List<BStackSession> bStackSessions;
@@ -26,6 +32,9 @@ public class BStackReport extends ViewBuildResults {
     private AdministrationConfigurationAccessor administrationConfigurationAccessor;
 
 
+    /*
+      The default entry point.
+    */
     @Override
     public String doDefault() throws Exception {
       LazyComponentReference<SystemInfo> systemInfoReference = new LazyComponentReference<SystemInfo>("systemInfo"); 

@@ -21,6 +21,7 @@ import org.apache.tools.ant.DirectoryScanner;
 /**
  * @author Shirish Kamath
  * @author Anirudha Khanna
+ * @author Pulkit Sharma
  */
 public class BStackXMLReportParser {
 
@@ -36,7 +37,6 @@ public class BStackXMLReportParser {
     public void process() {
 
         for(String filePath : findBStackMappingReports()) {
-            System.out.println(filePath);
             Map<String, String> parsedIds = null;
 
             try {
@@ -49,7 +49,6 @@ public class BStackXMLReportParser {
                 testSessionMap.putAll(parsedIds);
             }
         }
-        System.out.println(testSessionMap);
     }
 
     //http://stackoverflow.com/questions/794381/how-to-find-files-that-match-a-wildcard-string-in-java

@@ -3,7 +3,13 @@ import com.browserstack.automate.model.Session;
 import com.browserstack.bamboo.ci.lib.BStackSessionStub;
 import com.browserstack.bamboo.ci.lib.JUnitReport;
 
+/*
+  bundles a JUnit TestCase and its corresponding BrowserStack Session together.
+*/
 
+/**
+ * @author Pulkit Sharma
+ */
 public class BStackSession {
   private JUnitReport testCase;
   private String bStackSessionId;

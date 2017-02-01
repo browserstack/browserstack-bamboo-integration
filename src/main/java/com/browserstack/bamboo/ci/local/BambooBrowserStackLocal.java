@@ -11,9 +11,15 @@ import org.apache.commons.lang.StringUtils;
 import java.util.Arrays;
 
 /*
+  Extends Local to support launch arguments.
   Inspired by https://github.com/jenkinsci/browserstack-integration-plugin/blob/master/src/main/java/com/browserstack/automate/ci/jenkins/local/JenkinsBrowserStackLocal.java
 */
 
+/**
+ * @author Shirish Kamath
+ * @author Anirudha Khanna
+ * @author Pulkit Sharma
+ */
 public class BambooBrowserStackLocal extends Local {
   private static final String OPTION_LOCAL_IDENTIFIER = "localIdentifier";
 
@@ -67,7 +73,6 @@ public class BambooBrowserStackLocal extends Local {
               }
           }
       }
-      // System.out.println("Starting Binary instance finally with these args : " + Arrays.asList(command));
       return super.runCommand(command);
   }
 

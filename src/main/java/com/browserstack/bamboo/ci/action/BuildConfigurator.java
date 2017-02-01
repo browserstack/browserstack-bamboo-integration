@@ -21,6 +21,13 @@ import com.atlassian.bamboo.build.logger.BuildLogger;
 import java.util.Arrays;
 import java.util.Map;
 
+/*
+  This configures the Job level BrowserStack settings. And starts the Local Binary if required.
+*/
+
+/**
+ * @author Pulkit Sharma
+ */
 
 public class BuildConfigurator extends BaseConfigurableBuildPlugin implements CustomPreBuildAction {
 
@@ -28,22 +35,19 @@ public class BuildConfigurator extends BaseConfigurableBuildPlugin implements Cu
     private BStackConfigManager configManager;
 
 
-
+    /* 
+      Invoked when Build is about to start.
+    */
     @Override
     public BuildContext call() {
       this.configManager = new BStackConfigManager(administrationConfigurationAccessor.getAdministrationConfiguration(), buildContext.getBuildDefinition().getCustomConfiguration());
-      
-      // System.out.println(Arrays.asList(buildContext.getBuildDefinition().getCustomConfiguration()));
 
       if(configManager.hasCredentials()) {
-        System.out.println("FOUND BS CREDENTIALS"); 
         if(configManager.localEnabled()) {
           startLocal();
         }
-      } else {
-        System.out.println("BS CREDENTIALS NOT FOUND");  
       }
-
+      
       return buildContext;
     }
 
@@ -81,7 +85,6 @@ public class BuildConfigurator extends BaseConfigurableBuildPlugin implements Cu
     }
 
     private void injectVariable(BuildContext buildContext, String key, String value) {
-        System.out.println("Injecting " + key + ": " + value);
         VariableContext variableContext =  buildContext.getVariableContext();
         variableContext.addLocalVariable(key, value);
         VariableDefinitionContext variableDefinitionContext = variableContext.getEffectiveVariables().get(key);
@@ -91,6 +94,10 @@ public class BuildConfigurator extends BaseConfigurableBuildPlugin implements Cu
         }
     }
 
+
+    /*
+      Populate variables for the template.
+    */
     @Override
     protected void populateContextForEdit(final Map<String, Object> context, final BuildConfiguration buildConfiguration, final Plan build) {
       String contextPrefix = "custom.browserstack.";

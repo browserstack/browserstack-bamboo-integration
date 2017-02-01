@@ -20,6 +20,14 @@ import com.browserstack.automate.model.Session;
 import com.browserstack.automate.exception.AutomateException;
 import com.browserstack.automate.exception.SessionNotFound;
 
+
+/*
+  Used for assosciating TestCases found in the surefire-reports directory with the TestCases -> SessionID mapping (browserstack report).
+*/
+
+/**
+ * @author Pulkit Sharma
+ */
 public class BStackJUnitSessionMapper {
 
   private String baseDir;
@@ -59,7 +67,6 @@ public class BStackJUnitSessionMapper {
         System.out.println(testCaseName + " / " + testCaseName + " <=> " + testIndex);
 
         String testId = String.format("%s{%d}", testCaseName, testIndex);
-        System.out.println("Searching for testId : " + testId);
 
         if (testSessionMap.containsKey(testId)) {
             Session activeSession = null;
@@ -69,10 +76,8 @@ public class BStackJUnitSessionMapper {
             try {
                 activeSession = automateClient.getSession(bStackSessionId);
             } catch (AutomateException aex) {
-              System.out.println("Exception while fetching session from BrowserStack " + aex.toString());
               exceptionEncountered = aex.toString();
             } catch (SessionNotFound snfEx) {
-              System.out.println("Exception while fetching session from BrowserStack " + snfEx.toString());
               exceptionEncountered = snfEx.toString();
             }
 

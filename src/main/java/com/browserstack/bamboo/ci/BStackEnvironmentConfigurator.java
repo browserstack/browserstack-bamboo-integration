@@ -21,6 +21,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Arrays;
 
+/*
+  Sets the Job's Environment Variables sections to have the required Bamboo variables to be used as the desired Environment variables.
+  Injects the Environment Variables with the values from the BStackConfigManager. 
+*/
+
+/**
+ * @author Pulkit Sharma
+ */
+
 public class BStackEnvironmentConfigurator extends BaseConfigurableBuildPlugin implements CustomPreBuildQueuedAction {
 
   protected AdministrationConfigurationManager administrationConfigurationManager;
@@ -47,18 +56,7 @@ public class BStackEnvironmentConfigurator extends BaseConfigurableBuildPlugin i
         injectVariable(buildContext, BStackEnvVars.BSTACK_ACCESS_KEY, configManager.get(BStackEnvVars.BSTACK_ACCESS_KEY));
         injectVariable(buildContext, BStackEnvVars.BSTACK_LOCAL_ENABLED, configManager.get(BStackEnvVars.BSTACK_LOCAL_ENABLED));
       }
-
-
-      // System.out.println("CONFIG MANAGER VALUES");
-
-      // System.out.println("BSTACK_USERNAME = " + configManager.get(BStackEnvVars.BSTACK_USERNAME));
-      // System.out.println("BSTACK_ACCESS_KEY = " + configManager.get(BStackEnvVars.BSTACK_ACCESS_KEY));
-
-      // System.out.println("BSTACK_LOCAL_ENABLED = " + configManager.get(BStackEnvVars.BSTACK_LOCAL_ENABLED));
-      // System.out.println("BSTACK_LOCAL_PATH = " + configManager.get(BStackEnvVars.BSTACK_LOCAL_PATH));
-      // System.out.println("BSTACK_LOCAL_ARGS = " + configManager.get(BStackEnvVars.BSTACK_LOCAL_ARGS));
-
-      
+            
       return buildContext;
   }
 
@@ -69,8 +67,6 @@ public class BStackEnvironmentConfigurator extends BaseConfigurableBuildPlugin i
         Map<String, String> configuration = taskDefinition.getConfiguration();
         String originalEnv = StringUtils.defaultString((String) configuration.get("environmentVariables"));
         Map<String, String> origMap = environmentVariableAccessor.splitEnvironmentAssignments(originalEnv, false);        
-
-        System.out.println("Environment Variables Already Set = " + Arrays.asList(origMap));
 
         origMap.put(BStackEnvVars.BSTACK_USERNAME, "${bamboo." + BStackEnvVars.BSTACK_USERNAME + "}");
         origMap.put(BStackEnvVars.BSTACK_ACCESS_KEY, "${bamboo." + BStackEnvVars.BSTACK_ACCESS_KEY + "}");
@@ -84,7 +80,6 @@ public class BStackEnvironmentConfigurator extends BaseConfigurableBuildPlugin i
   }
 
   private void injectVariable(BuildContext buildContext, String key, String value) {
-      System.out.println("Injecting " + key + ": " + value);
       VariableContext variableContext =  buildContext.getVariableContext();
       variableContext.addLocalVariable(key, value);
       VariableDefinitionContext variableDefinitionContext = variableContext.getEffectiveVariables().get(key);
