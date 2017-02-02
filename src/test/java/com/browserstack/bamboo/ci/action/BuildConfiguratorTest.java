@@ -296,4 +296,20 @@ public class BuildConfiguratorTest {
 
 
 
+    @Test
+    public void shouldNotStartBinaryToGivePreferenceToAdminConfigInvalid() {
+
+      Boolean localStartTry = false;
+
+      buildDefinition.getCustomConfiguration().put("custom.browserstack.override", "false");
+      buildDefinition.getCustomConfiguration().put("custom.browserstack." + BStackEnvVars.BSTACK_USERNAME, "JABBA");
+      buildDefinition.getCustomConfiguration().put("custom.browserstack." + BStackEnvVars.BSTACK_LOCAL_ENABLED, "false");
+
+
+      administrationConfiguration.setSystemProperty(BStackEnvVars.BSTACK_USERNAME, "ADMIN_JABBA");
+      administrationConfiguration.setSystemProperty(BStackEnvVars.BSTACK_LOCAL_ENABLED, "true");
+
+      buildConfigurator.call();
+    }
+
 }
