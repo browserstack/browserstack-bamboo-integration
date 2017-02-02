@@ -36,12 +36,13 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 public class BuildConfiguratorTest {
     private BuildConfigurator buildConfigurator;
     private BuildDefinition buildDefinition;
+    private AdministrationConfiguration administrationConfiguration;
 
 
     @Before
     public void setUp() throws Exception {
       this.buildConfigurator = new BuildConfigurator();
-      final AdministrationConfiguration administrationConfiguration = new AdministrationConfigurationImpl(null);
+      administrationConfiguration = new AdministrationConfigurationImpl(null);
 
       AdministrationConfigurationAccessor administrationConfigurationAccessor = mock(AdministrationConfigurationAccessor.class);
       when(administrationConfigurationAccessor.getAdministrationConfiguration()).thenReturn(administrationConfiguration);
@@ -195,8 +196,176 @@ public class BuildConfiguratorTest {
       assertEquals(false, localStartTry);
     }
 
-    
-    
+    @Test
+    public void shouldTryToStartBStackLocalIfAdminConfigIsSet() {
+
+      Boolean localStartTry = false;
+
+      // Admin Config is Complete and BrowserStackLocal is enabled.
+      administrationConfiguration.setSystemProperty(BStackEnvVars.BSTACK_USERNAME, "ADMIN_JABBA");
+      administrationConfiguration.setSystemProperty(BStackEnvVars.BSTACK_ACCESS_KEY, "ADMIN_JABBA_KEY");
+      administrationConfiguration.setSystemProperty(BStackEnvVars.BSTACK_LOCAL_ENABLED, "true");
+
+      try {
+        buildConfigurator.call();
+      } catch (RuntimeException e) {
+        localStartTry = true;
+        assertTrue(e.toString().contains("Exception while starting the BrowserStackLocal Binary"));
+      }
+
+      assertEquals(true, localStartTry);
+    }
+
+    @Test
+    public void shouldNotTryToStartBStackLocalIfAdminConfigIsSet() {
+
+      Boolean localStartTry = false;
+
+      // Admin Config is Complete and BrowserStackLocal is set to some other value.
+      administrationConfiguration.setSystemProperty(BStackEnvVars.BSTACK_USERNAME, "ADMIN_JABBA");
+      administrationConfiguration.setSystemProperty(BStackEnvVars.BSTACK_ACCESS_KEY, "ADMIN_JABBA_KEY");
+      administrationConfiguration.setSystemProperty(BStackEnvVars.BSTACK_LOCAL_ENABLED, "false");
+
+      try {
+        buildConfigurator.call();
+      } catch (RuntimeException e) {
+        localStartTry = true;
+        assertTrue(e.toString().contains("Exception while starting the BrowserStackLocal Binary"));
+      }
+
+      assertEquals(false, localStartTry);
+    }
+
+    @Test
+    public void shouldNotTryToStartBStackLocalIfAdminConfigIsSet_() {
+
+      Boolean localStartTry = false;
+
+      // Admin Config is Complete and BrowserStackLocal is not enabled.
+      administrationConfiguration.setSystemProperty(BStackEnvVars.BSTACK_USERNAME, "ADMIN_JABBA");
+      administrationConfiguration.setSystemProperty(BStackEnvVars.BSTACK_ACCESS_KEY, "ADMIN_JABBA_KEY");
+
+      try {
+        buildConfigurator.call();
+      } catch (RuntimeException e) {
+        localStartTry = true;
+        assertTrue(e.toString().contains("Exception while starting the BrowserStackLocal Binary"));
+      }
+
+      assertEquals(false, localStartTry);
+    }
+
+    @Test
+    public void shouldNotTryToStartBStackLocalIfAdminConfigIsIncomplete() {
+
+      Boolean localStartTry = false;
+
+      // Admin Config is Incomplete and BrowserStackLocal is enabled.
+      administrationConfiguration.setSystemProperty(BStackEnvVars.BSTACK_USERNAME, "ADMIN_JABBA");
+      administrationConfiguration.setSystemProperty(BStackEnvVars.BSTACK_LOCAL_ENABLED, "true");
+
+      try {
+        buildConfigurator.call();
+      } catch (RuntimeException e) {
+        localStartTry = true;
+        assertTrue(e.toString().contains("Exception while starting the BrowserStackLocal Binary"));
+      }
+
+      assertEquals(false, localStartTry);
+    }
+
+    @Test
+    public void shouldNotTryToStartBStackLocalIfAdminConfigIsIncomplete_() {
+
+      Boolean localStartTry = false;
+
+      // Admin Config is Incomplete and BrowserStackLocal is enabled.
+      administrationConfiguration.setSystemProperty(BStackEnvVars.BSTACK_ACCESS_KEY, "ADMIN_JABBA_KEY");
+      administrationConfiguration.setSystemProperty(BStackEnvVars.BSTACK_LOCAL_ENABLED, "true");
+
+      try {
+        buildConfigurator.call();
+      } catch (RuntimeException e) {
+        localStartTry = true;
+        assertTrue(e.toString().contains("Exception while starting the BrowserStackLocal Binary"));
+      }
+
+      assertEquals(false, localStartTry);
+    }
+
+
+    @Test
+    public void shouldStartBinaryToGivePreferenceToJobConfigIfOverrideIstrue() {
+
+      Boolean localStartTry = false;
+
+      buildDefinition.getCustomConfiguration().put("custom.browserstack.override", "true");
+      buildDefinition.getCustomConfiguration().put("custom.browserstack." + BStackEnvVars.BSTACK_USERNAME, "JABBA");
+      buildDefinition.getCustomConfiguration().put("custom.browserstack." + BStackEnvVars.BSTACK_ACCESS_KEY, "JABBA_KEY");
+      buildDefinition.getCustomConfiguration().put("custom.browserstack." + BStackEnvVars.BSTACK_LOCAL_ENABLED, "true");
+
+
+      administrationConfiguration.setSystemProperty(BStackEnvVars.BSTACK_USERNAME, "ADMIN_JABBA");
+      administrationConfiguration.setSystemProperty(BStackEnvVars.BSTACK_LOCAL_ENABLED, "false");
+
+      try {
+        buildConfigurator.call();
+      } catch (RuntimeException e) {
+        localStartTry = true;
+        assertTrue(e.toString().contains("Exception while starting the BrowserStackLocal Binary"));
+      }
+
+      assertEquals(true, localStartTry);
+    }
+
+    @Test
+    public void shouldNotStartBinaryToGivePreferenceToJobConfigIfOverrideIstrue() {
+
+      Boolean localStartTry = false;
+
+      buildDefinition.getCustomConfiguration().put("custom.browserstack.override", "true");
+      buildDefinition.getCustomConfiguration().put("custom.browserstack." + BStackEnvVars.BSTACK_USERNAME, "JABBA");
+      buildDefinition.getCustomConfiguration().put("custom.browserstack." + BStackEnvVars.BSTACK_ACCESS_KEY, "JABBA_KEY");
+      buildDefinition.getCustomConfiguration().put("custom.browserstack." + BStackEnvVars.BSTACK_LOCAL_ENABLED, "false");
+
+
+      administrationConfiguration.setSystemProperty(BStackEnvVars.BSTACK_USERNAME, "ADMIN_JABBA");
+      administrationConfiguration.setSystemProperty(BStackEnvVars.BSTACK_ACCESS_KEY, "ADMIN_JABBA_KEY");
+      administrationConfiguration.setSystemProperty(BStackEnvVars.BSTACK_LOCAL_ENABLED, "true");
+
+      try {
+        buildConfigurator.call();
+      } catch (RuntimeException e) {
+        localStartTry = true;
+        assertTrue(e.toString().contains("Exception while starting the BrowserStackLocal Binary"));
+      }
+
+      assertEquals(false, localStartTry);
+    }
+
+    @Test
+    public void shouldNotStartBinaryToGivePreferenceToJobConfigIfOverrideIstrue_() {
+
+      Boolean localStartTry = false;
+
+      buildDefinition.getCustomConfiguration().put("custom.browserstack.override", "true");
+      buildDefinition.getCustomConfiguration().put("custom.browserstack." + BStackEnvVars.BSTACK_USERNAME, "JABBA");
+      buildDefinition.getCustomConfiguration().put("custom.browserstack." + BStackEnvVars.BSTACK_LOCAL_ENABLED, "true");
+
+
+      administrationConfiguration.setSystemProperty(BStackEnvVars.BSTACK_USERNAME, "ADMIN_JABBA");
+      administrationConfiguration.setSystemProperty(BStackEnvVars.BSTACK_ACCESS_KEY, "ADMIN_JABBA_KEY");
+      administrationConfiguration.setSystemProperty(BStackEnvVars.BSTACK_LOCAL_ENABLED, "true");
+
+      try {
+        buildConfigurator.call();
+      } catch (RuntimeException e) {
+        localStartTry = true;
+        assertTrue(e.toString().contains("Exception while starting the BrowserStackLocal Binary"));
+      }
+
+      assertEquals(false, localStartTry);
+    }
 
 
 }
