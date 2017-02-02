@@ -47,7 +47,6 @@ public class BStackEnvironmentConfigurator extends BaseConfigurableBuildPlugin i
       setEnvironmentVariableAccessor(ComponentLocator.getComponent(EnvironmentVariableAccessor.class));
 
       BStackConfigManager configManager = new BStackConfigManager(adminConfig, buildContext.getBuildDefinition().getCustomConfiguration());
-      
 
       if(configManager.hasCredentials()) {
         addEnvVarsToPlan();
@@ -62,7 +61,6 @@ public class BStackEnvironmentConfigurator extends BaseConfigurableBuildPlugin i
 
   private void addEnvVarsToPlan() {
     List<TaskDefinition> taskDefinitions = buildContext.getBuildDefinition().getTaskDefinitions();
-
     for (TaskDefinition taskDefinition : taskDefinitions) {
         Map<String, String> configuration = taskDefinition.getConfiguration();
         String originalEnv = StringUtils.defaultString((String) configuration.get("environmentVariables"));

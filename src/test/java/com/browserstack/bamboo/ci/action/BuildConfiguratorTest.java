@@ -31,6 +31,16 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 
 
+
+/*
+  Considers different cases of the Job and Admin Configuration to start the Local Binary. Also tests the BStackConfigManager in turn.
+  Thanks to @rossrowe for some of the code snippets present here.
+*/
+
+/**
+  * @author Pulkit Sharma
+  */
+
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(ContainerManager.class)
 public class BuildConfiguratorTest {
