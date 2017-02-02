@@ -24,8 +24,6 @@ import com.atlassian.bamboo.build.logger.LogInterceptorStack;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 
 
-
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
@@ -74,11 +72,115 @@ public class BuildConfiguratorTest {
     }
 
     @Test
-    public void shouldTryStartingLocalIfJobConfigSet() {
+    public void shouldTryToStartBStackLocalIfJobConfigSet() {
 
       Boolean localStartTry = false;
 
+      // Job configuration is complete, and Local Testing is set to True.
       buildDefinition.getCustomConfiguration().put("custom.browserstack.override", "true");
+      buildDefinition.getCustomConfiguration().put("custom.browserstack." + BStackEnvVars.BSTACK_USERNAME, "JABBA");
+      buildDefinition.getCustomConfiguration().put("custom.browserstack." + BStackEnvVars.BSTACK_ACCESS_KEY, "JABBA_KEY");
+      buildDefinition.getCustomConfiguration().put("custom.browserstack." + BStackEnvVars.BSTACK_LOCAL_ENABLED, "true");
+
+      try {
+        buildConfigurator.call();
+      } catch (RuntimeException e) {
+        localStartTry = true;
+        assertTrue(e.toString().contains("Exception while starting the BrowserStackLocal Binary"));
+
+      }
+
+      assertEquals(true, localStartTry);
+    }
+
+    @Test
+    public void shouldNotTryToStartBStackLocalIfJobConfigSet() {
+
+      Boolean localStartTry = false;
+
+      // Job configuration is complete, and Local Testing is NOT selected.
+      buildDefinition.getCustomConfiguration().put("custom.browserstack.override", "true");
+      buildDefinition.getCustomConfiguration().put("custom.browserstack." + BStackEnvVars.BSTACK_USERNAME, "JABBA");
+      buildDefinition.getCustomConfiguration().put("custom.browserstack." + BStackEnvVars.BSTACK_ACCESS_KEY, "JABBA_KEY");
+      buildDefinition.getCustomConfiguration().put("custom.browserstack." + BStackEnvVars.BSTACK_LOCAL_ENABLED, "false");
+
+      try {
+        buildConfigurator.call();
+      } catch (RuntimeException e) {
+        localStartTry = true;
+        assertTrue(e.toString().contains("Exception while starting the BrowserStackLocal Binary"));
+      }
+
+      assertEquals(false, localStartTry);
+    }
+
+
+    @Test
+    public void shouldNotTryToStartBStackLocalIfJobConfigHasNoAccessKey() {
+
+      Boolean localStartTry = false;
+
+      // Job configuration is incomplete, and Local Testing is set to True.
+      buildDefinition.getCustomConfiguration().put("custom.browserstack.override", "true");
+      buildDefinition.getCustomConfiguration().put("custom.browserstack." + BStackEnvVars.BSTACK_USERNAME, "JABBA");
+      buildDefinition.getCustomConfiguration().put("custom.browserstack." + BStackEnvVars.BSTACK_LOCAL_ENABLED, "true");
+
+      try {
+        buildConfigurator.call();
+      } catch (RuntimeException e) {
+        localStartTry = true;
+        assertTrue(e.toString().contains("Exception while starting the BrowserStackLocal Binary"));
+      }
+
+      assertEquals(false, localStartTry);
+    }
+
+
+    @Test
+    public void shouldNotTryToStartBStackLocalIfJobConfigHasNoUserName() {
+
+      Boolean localStartTry = false;
+
+      // Job configuration is incomplete, and Local Testing is set to True.
+      buildDefinition.getCustomConfiguration().put("custom.browserstack.override", "true");
+      buildDefinition.getCustomConfiguration().put("custom.browserstack." + BStackEnvVars.BSTACK_ACCESS_KEY, "JABBA_KEY");
+      buildDefinition.getCustomConfiguration().put("custom.browserstack." + BStackEnvVars.BSTACK_LOCAL_ENABLED, "true");
+
+      try {
+        buildConfigurator.call();
+      } catch (RuntimeException e) {
+        localStartTry = true;
+        assertTrue(e.toString().contains("Exception while starting the BrowserStackLocal Binary"));
+      }
+
+      assertEquals(false, localStartTry);
+    }
+
+    @Test
+    public void shouldNotTryToStartBStackLocalIfJobConfigOverrideIsFalse() {
+
+      Boolean localStartTry = false;
+
+      // Job configuration is set to NOT override Admin Config, and Local Testing is set to True.
+      buildDefinition.getCustomConfiguration().put("custom.browserstack." + BStackEnvVars.BSTACK_ACCESS_KEY, "JABBA_KEY");
+      buildDefinition.getCustomConfiguration().put("custom.browserstack." + BStackEnvVars.BSTACK_LOCAL_ENABLED, "true");
+
+      try {
+        buildConfigurator.call();
+      } catch (RuntimeException e) {
+        localStartTry = true;
+        assertTrue(e.toString().contains("Exception while starting the BrowserStackLocal Binary"));
+      }
+
+      assertEquals(false, localStartTry);
+    }
+
+    @Test
+    public void shouldNotTryToStartBStackLocalIfJobConfigOverrideIsFalseA() {
+
+      Boolean localStartTry = false;
+
+      // Job configuration is set to NOT override Admin Config, and Local Testing is set to True.
       buildDefinition.getCustomConfiguration().put("custom.browserstack." + BStackEnvVars.BSTACK_USERNAME, "JABBA");
       buildDefinition.getCustomConfiguration().put("custom.browserstack." + BStackEnvVars.BSTACK_ACCESS_KEY, "JABBA_KEY");
       buildDefinition.getCustomConfiguration().put("custom.browserstack." + BStackEnvVars.BSTACK_LOCAL_ENABLED, "true");
@@ -90,26 +192,11 @@ public class BuildConfiguratorTest {
         assertTrue(e.toString().contains("Exception while starting the BrowserStackLocal Binary"));
       }
 
-      assertEquals(true, localStartTry);
-    }
-
-    @Test
-    public void shouldNotTryStartingLocalIfJobConfigSet() {
-
-      Boolean localStartTry = false;
-
-      buildDefinition.getCustomConfiguration().put("custom.browserstack.override", "true");
-      buildDefinition.getCustomConfiguration().put("custom.browserstack." + BStackEnvVars.BSTACK_USERNAME, "JABBA");
-      buildDefinition.getCustomConfiguration().put("custom.browserstack." + BStackEnvVars.BSTACK_ACCESS_KEY, "JABBA_KEY");
-      buildDefinition.getCustomConfiguration().put("custom.browserstack." + BStackEnvVars.BSTACK_LOCAL_ENABLED, "false");
-      
-      try {
-        buildConfigurator.call();
-      } catch (RuntimeException e) {
-        localStartTry = true;
-        assertTrue(e.toString().contains("Exception while starting the BrowserStackLocal Binary"));
-      }
-
       assertEquals(false, localStartTry);
     }
+
+    
+    
+
+
 }
