@@ -9,7 +9,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
 import java.io.IOException;
-import org.apache.tools.ant.DirectoryScanner; 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -19,6 +18,8 @@ import com.browserstack.automate.AutomateClient;
 import com.browserstack.automate.model.Session;
 import com.browserstack.automate.exception.AutomateException;
 import com.browserstack.automate.exception.SessionNotFound;
+import com.browserstack.bamboo.ci.lib.BStackDirectoryScanner;
+
 
 
 /*
@@ -46,7 +47,18 @@ public class BStackJUnitSessionMapper {
 
   public List<BStackSession> parseAndMapJUnitXMLReports() {
 
-    String[] reportFilePaths = findJUnitReports();
+    if(testSessionMap.isEmpty()) {
+      System.out.println("BrowserStack reports not found, Aborting.");
+      return bStackSessions;
+    }
+
+    String[] reportFilePaths = BStackDirectoryScanner.findFilesMatchingPattern(baseDir, pattern);
+
+    if(reportFilePaths == null || reportFilePaths.length == 0) {
+      System.out.println("Unable to find any JUnit Test reports, make sure you have correctly set your pom.xml");
+      return bStackSessions;
+    }
+
     Map<String, Long> testCaseIndices = new HashMap<String, Long>();
 
     for(String reportFilePath : reportFilePaths) {
@@ -138,14 +150,4 @@ public class BStackJUnitSessionMapper {
     return testCases;
   }
 
-  //http://stackoverflow.com/questions/794381/how-to-find-files-that-match-a-wildcard-string-in-java
-  private String[] findJUnitReports() {
-    DirectoryScanner scanner = new DirectoryScanner();
-    scanner.setIncludes(new String[]{pattern});
-    scanner.setBasedir(baseDir);
-    scanner.setCaseSensitive(false);
-    scanner.scan();
-    String[] files = scanner.getIncludedFiles();
-    return files;
-  }
 }

@@ -31,6 +31,10 @@ public class BStackReport extends ViewBuildResults {
 
     private AdministrationConfigurationAccessor administrationConfigurationAccessor;
 
+    String buildNumber;
+
+    ImmutablePlan plan;
+
 
     /*
       The default entry point.
@@ -40,18 +44,20 @@ public class BStackReport extends ViewBuildResults {
       LazyComponentReference<SystemInfo> systemInfoReference = new LazyComponentReference<SystemInfo>("systemInfo"); 
       SystemInfo systemInfo = systemInfoReference.get();
 
-      String buildWorkingDirectory = systemInfo.getBuildWorkingDirectory();
+      String artifactsBaseDirectory = systemInfo.getArtifactsDirectory();
+
       bStackSessions = new ArrayList<BStackSession>();
 
-      ImmutablePlan plan = getImmutablePlan();
+      plan = getImmutablePlan();
+      
       if (plan instanceof ImmutableChain) {
         for (ImmutableJob job : ((ImmutableChain) plan).getAllJobs()) {
-          AddBStackSessions(buildWorkingDirectory, job);
+          AddBStackSessions(artifactsBaseDirectory, job);
         }
       } else {
         if(plan instanceof ImmutableJob) {
           ImmutableJob job = (ImmutableJob) plan;
-          AddBStackSessions(buildWorkingDirectory, job);
+          AddBStackSessions(artifactsBaseDirectory, job);
         }
       }
 
@@ -64,8 +70,10 @@ public class BStackReport extends ViewBuildResults {
     }
 
     private void AddBStackSessions(String baseDirectory, ImmutableJob job) {
-      String directoryToScan = baseDirectory + "/" + job.getKey();
-      
+
+      String directoryToScan = baseDirectory + "/" + "plan-" + plan.getId() + "/" + job.getKey().split("-")[2] + "/build-" + String.format("%05d", Integer.parseInt(buildNumber)) + "/BS_REPORTS/target";    
+      System.out.println("SCANNING THE FOLLOWING " + directoryToScan);
+
       BStackConfigManager configManager = new BStackConfigManager(administrationConfigurationAccessor.getAdministrationConfiguration(), job.getBuildDefinition().getCustomConfiguration());
       AutomateClient automateClient = null;
 
@@ -81,6 +89,10 @@ public class BStackReport extends ViewBuildResults {
         bStackSessions.addAll(sessionMapper.parseAndMapJUnitXMLReports());
       } 
       
+    }
+
+    public void setBuildNumber(String buildNumber){
+      this.buildNumber = buildNumber;
     }
 
     public AdministrationConfigurationAccessor getAdministrationConfigurationAccessor() {

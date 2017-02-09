@@ -64,7 +64,7 @@
                         <div>
                             <p>${bStackSession.getExceptionEncountered()}</p>
                         </div>
-                        <iframe width="100%" height="500px" src="" data-src="${bStackSession.getSession().getPublicUrl()}" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
+                        <iframe width="100%" height="700px" src="" data-src="${bStackSession.getSession().getPublicUrl()}" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
                     </div>
                 </td>
             </tr>
