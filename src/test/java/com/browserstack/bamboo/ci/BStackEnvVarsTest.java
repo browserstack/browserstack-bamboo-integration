@@ -14,7 +14,6 @@ public class BStackEnvVarsTest {
       assertEquals(BStackEnvVars.BSTACK_USERNAME, "BROWSERSTACK_USERNAME");
       assertEquals(BStackEnvVars.BSTACK_ACCESS_KEY, "BROWSERSTACK_ACCESS_KEY");
       assertEquals(BStackEnvVars.BSTACK_LOCAL_ENABLED, "BROWSERSTACK_LOCAL");
-      assertEquals(BStackEnvVars.BSTACK_LOCAL_PATH, "BROWSERSTACK_LOCAL_PATH");
       assertEquals(BStackEnvVars.BSTACK_LOCAL_ARGS, "BROWSERSTACK_LOCAL_ARGS");
       assertEquals(BStackEnvVars.BSTACK_LOCAL_IDENTIFIER, "BROWSERSTACK_LOCAL_IDENTIFIER");
     }

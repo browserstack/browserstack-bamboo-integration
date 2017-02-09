@@ -58,13 +58,8 @@ public class BuildConfigurator extends BaseConfigurableBuildPlugin implements Cu
       //Setting BambooBrowserStackLocal instance to null because updated configuration was not updated in the Singleton instance(because it was already in memory ??)
       BrowserStackLocalSingleton.reset();
       String accessKey = configManager.get(BStackEnvVars.BSTACK_ACCESS_KEY);
-      String localPath = configManager.get(BStackEnvVars.BSTACK_LOCAL_PATH);
       String localArgs = configManager.get(BStackEnvVars.BSTACK_LOCAL_ARGS);
-      BambooBrowserStackLocal browserStackLocal = BrowserStackLocalSingleton.getBrowserStackLocal(accessKey, localPath, localArgs);
-
-      if(StringUtils.isNotBlank(localPath)) {
-        localPath = localPath + " ";
-      }
+      BambooBrowserStackLocal browserStackLocal = BrowserStackLocalSingleton.getBrowserStackLocal(accessKey, localArgs);
 
       if(StringUtils.isNotBlank(localArgs)) {
         localArgs = "with args " + localArgs;
@@ -72,7 +67,7 @@ public class BuildConfigurator extends BaseConfigurableBuildPlugin implements Cu
 
 
       try {
-        buildLogger.addBuildLogEntry("Starting BrowserStackLocal Binary " + localPath + localArgs);
+        buildLogger.addBuildLogEntry("Starting BrowserStackLocal Binary " + localArgs);
         browserStackLocal.start();
         //Add Sleep Here ? Got 'browserstack.local is set to true but BrowserStackLocal binary is not connected error.'
         buildLogger.addBuildLogEntry("BrowserStackLocal Binary started successfully. LocalIdentifier: " + browserStackLocal.getLocalIdentifier());
@@ -105,7 +100,6 @@ public class BuildConfigurator extends BaseConfigurableBuildPlugin implements Cu
       context.put("browserstack_username_key", contextPrefix + BStackEnvVars.BSTACK_USERNAME);
       context.put("browserstack_access_key_key", contextPrefix + BStackEnvVars.BSTACK_ACCESS_KEY);
       context.put("browserstack_local_enabled_key", contextPrefix + BStackEnvVars.BSTACK_LOCAL_ENABLED);
-      context.put("browserstack_local_path_key", contextPrefix + BStackEnvVars.BSTACK_LOCAL_PATH);
       context.put("browserstack_local_args_key", contextPrefix + BStackEnvVars.BSTACK_LOCAL_ARGS); 
     }
 

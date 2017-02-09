@@ -41,7 +41,6 @@ public class ConfigureBStack extends BambooActionSupport implements GlobalAdminS
       setUsername(adminConfig.getSystemProperty(BStackEnvVars.BSTACK_USERNAME));
       setAccessKey(adminConfig.getSystemProperty(BStackEnvVars.BSTACK_ACCESS_KEY));
       setBrowserstackLocal(adminConfig.getSystemProperty(BStackEnvVars.BSTACK_LOCAL_ENABLED));
-      setBrowserstackLocalArgs(adminConfig.getSystemProperty(BStackEnvVars.BSTACK_LOCAL_PATH));
       setBrowserstackLocalPath(adminConfig.getSystemProperty(BStackEnvVars.BSTACK_LOCAL_ARGS));
 
       return INPUT;
@@ -53,7 +52,6 @@ public class ConfigureBStack extends BambooActionSupport implements GlobalAdminS
       adminConfig.setSystemProperty(BStackEnvVars.BSTACK_USERNAME,getUsername());
       adminConfig.setSystemProperty(BStackEnvVars.BSTACK_ACCESS_KEY,getAccessKey());
       adminConfig.setSystemProperty(BStackEnvVars.BSTACK_LOCAL_ENABLED,getBrowserstackLocal());
-      adminConfig.setSystemProperty(BStackEnvVars.BSTACK_LOCAL_PATH,getBrowserstackLocalPath());
       adminConfig.setSystemProperty(BStackEnvVars.BSTACK_LOCAL_ARGS,getBrowserstackLocalArgs());
 
 

@@ -26,12 +26,10 @@ public class BambooBrowserStackLocal extends Local {
   private final String accesskey;
   private final String[] arguments;
   private String localIdentifier;
-  private String binaryPath;
 
-  public BambooBrowserStackLocal(String accesskey, String binaryPath, String binaryArgs) {
+  public BambooBrowserStackLocal(String accesskey, String binaryArgs) {
       this.accesskey = accesskey;
       this.arguments = processLocalArguments((binaryArgs != null) ? binaryArgs.trim() : "");
-      this.binaryPath = binaryPath;
   }
 
   private String[] processLocalArguments(final String argString) {
@@ -79,10 +77,6 @@ public class BambooBrowserStackLocal extends Local {
   public void start() throws Exception {
       Map<String, String> localOptions = new HashMap<String, String>();
       localOptions.put("key", accesskey);
-
-      if(StringUtils.isNotBlank(binaryPath)) {
-        localOptions.put("binarypath", binaryPath);
-      }
 
       super.start(localOptions);
   }

@@ -6,10 +6,10 @@ public class BrowserStackLocalSingleton {
 
     private static BambooBrowserStackLocal browserStackLocal;
     
-    public static BambooBrowserStackLocal getBrowserStackLocal(String accessKey, String binaryPath, String binaryArgs) {
+    public static BambooBrowserStackLocal getBrowserStackLocal(String accessKey, String binaryArgs) {
 
         if (BrowserStackLocalSingleton.browserStackLocal == null) {
-            setBrowserStackLocal(new BambooBrowserStackLocal(accessKey, binaryPath, binaryArgs));
+            setBrowserStackLocal(new BambooBrowserStackLocal(accessKey, binaryArgs));
         }
         return BrowserStackLocalSingleton.browserStackLocal;
     }

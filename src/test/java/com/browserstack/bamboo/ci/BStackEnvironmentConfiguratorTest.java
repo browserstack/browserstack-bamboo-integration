@@ -146,7 +146,6 @@ public class BStackEnvironmentConfiguratorTest {
     buildDefinition.getCustomConfiguration().put("custom.browserstack." + BStackEnvVars.BSTACK_USERNAME, "JABBA");
     buildDefinition.getCustomConfiguration().put("custom.browserstack." + BStackEnvVars.BSTACK_ACCESS_KEY, "JABBA_KEY");
     buildDefinition.getCustomConfiguration().put("custom.browserstack." + BStackEnvVars.BSTACK_LOCAL_ENABLED, "true");
-    buildDefinition.getCustomConfiguration().put("custom.browserstack." + BStackEnvVars.BSTACK_LOCAL_PATH, "abcd");
     buildDefinition.getCustomConfiguration().put("custom.browserstack." + BStackEnvVars.BSTACK_LOCAL_ARGS, "1234");
     buildDefinition.getCustomConfiguration().put("custom.browserstack." + BStackEnvVars.BSTACK_LOCAL_IDENTIFIER, "bot_blink_soulring_bottle_dagon_etherealblade_bloodstone_backpack_gg");
 
@@ -157,7 +156,6 @@ public class BStackEnvironmentConfiguratorTest {
     assertEquals("JABBA_KEY", variableContext.getEffectiveVariables().get(BStackEnvVars.BSTACK_ACCESS_KEY).getValue());
     assertEquals("true", variableContext.getEffectiveVariables().get(BStackEnvVars.BSTACK_LOCAL_ENABLED).getValue());
 
-    assertNull(variableContext.getEffectiveVariables().get(BStackEnvVars.BSTACK_LOCAL_PATH));
     assertNull(variableContext.getEffectiveVariables().get(BStackEnvVars.BSTACK_LOCAL_ARGS));
     assertNull(variableContext.getEffectiveVariables().get(BStackEnvVars.BSTACK_LOCAL_IDENTIFIER));
   }
@@ -176,7 +174,6 @@ public class BStackEnvironmentConfiguratorTest {
     assertEquals("ADMIN_JABBA_KEY", variableContext.getEffectiveVariables().get(BStackEnvVars.BSTACK_ACCESS_KEY).getValue());
     assertEquals("false", variableContext.getEffectiveVariables().get(BStackEnvVars.BSTACK_LOCAL_ENABLED).getValue());
 
-    assertNull(variableContext.getEffectiveVariables().get(BStackEnvVars.BSTACK_LOCAL_PATH));
     assertNull(variableContext.getEffectiveVariables().get(BStackEnvVars.BSTACK_LOCAL_ARGS));
     assertNull(variableContext.getEffectiveVariables().get(BStackEnvVars.BSTACK_LOCAL_IDENTIFIER));
   }
@@ -201,7 +198,6 @@ public class BStackEnvironmentConfiguratorTest {
     assertEquals("JABBA_KEY", variableContext.getEffectiveVariables().get(BStackEnvVars.BSTACK_ACCESS_KEY).getValue());
     assertEquals("true", variableContext.getEffectiveVariables().get(BStackEnvVars.BSTACK_LOCAL_ENABLED).getValue());
 
-    assertNull(variableContext.getEffectiveVariables().get(BStackEnvVars.BSTACK_LOCAL_PATH));
     assertNull(variableContext.getEffectiveVariables().get(BStackEnvVars.BSTACK_LOCAL_ARGS));
     assertNull(variableContext.getEffectiveVariables().get(BStackEnvVars.BSTACK_LOCAL_IDENTIFIER));
   }
@@ -225,7 +221,6 @@ public class BStackEnvironmentConfiguratorTest {
     assertEquals("ADMIN_JABBA_KEY", variableContext.getEffectiveVariables().get(BStackEnvVars.BSTACK_ACCESS_KEY).getValue());
     assertEquals("false", variableContext.getEffectiveVariables().get(BStackEnvVars.BSTACK_LOCAL_ENABLED).getValue());
 
-    assertNull(variableContext.getEffectiveVariables().get(BStackEnvVars.BSTACK_LOCAL_PATH));
     assertNull(variableContext.getEffectiveVariables().get(BStackEnvVars.BSTACK_LOCAL_ARGS));
     assertNull(variableContext.getEffectiveVariables().get(BStackEnvVars.BSTACK_LOCAL_IDENTIFIER));
   }
