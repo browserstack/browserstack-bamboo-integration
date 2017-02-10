@@ -32,10 +32,7 @@ public class BStackReport extends ViewBuildResults {
     private AdministrationConfigurationAccessor administrationConfigurationAccessor;
 
     String buildNumber;
-
-    ImmutablePlan plan;
-
-
+    
     /*
       The default entry point.
     */
@@ -48,7 +45,7 @@ public class BStackReport extends ViewBuildResults {
 
       bStackSessions = new ArrayList<BStackSession>();
 
-      plan = getImmutablePlan();
+      ImmutablePlan plan = getImmutablePlan();
       
       if (plan instanceof ImmutableChain) {
         for (ImmutableJob job : ((ImmutableChain) plan).getAllJobs()) {
@@ -71,7 +68,7 @@ public class BStackReport extends ViewBuildResults {
 
     private void AddBStackSessions(String baseDirectory, ImmutableJob job) {
 
-      String directoryToScan = baseDirectory + "/" + "plan-" + plan.getId() + "/" + job.getKey().split("-")[2] + "/build-" + String.format("%05d", Integer.parseInt(buildNumber)) + "/BSTACK_REPORTS/target";    
+      String directoryToScan = baseDirectory + "/" + "plan-" + job.getParent().getId() + "/" + job.getKey().split("-")[2] + "/build-" + String.format("%05d", Integer.parseInt(buildNumber)) + "/BSTACK_REPORTS/target";    
       System.out.println("SCANNING THE FOLLOWING " + directoryToScan);
 
       BStackConfigManager configManager = new BStackConfigManager(administrationConfigurationAccessor.getAdministrationConfiguration(), job.getBuildDefinition().getCustomConfiguration());
