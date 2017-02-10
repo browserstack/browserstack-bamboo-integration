@@ -9,6 +9,8 @@ import com.atlassian.bamboo.configuration.AdministrationConfigurationPersister;
 import com.atlassian.sal.api.component.ComponentLocator;
 import com.browserstack.bamboo.ci.BStackEnvVars;
 import com.atlassian.plugin.PluginAccessor;
+import com.atlassian.bandana.BandanaManager;
+import com.atlassian.bamboo.bandana.PlanAwareBandanaContext;
 
 /*
  Global BrowserStack configuration. Available in Bamboo Administration section.
@@ -25,6 +27,7 @@ public class ConfigureBStack extends BambooActionSupport implements GlobalAdminS
     private String browserstackLocal;
     private String browserstackLocalPath;
     private String browserstackLocalArgs;
+    private BandanaManager bandanaManager;
 
 
     public ConfigureBStack(){
@@ -36,12 +39,11 @@ public class ConfigureBStack extends BambooActionSupport implements GlobalAdminS
     }
 
     public String doEdit() {
-      final AdministrationConfiguration adminConfig = this.getAdministrationConfiguration();
 
-      setUsername(adminConfig.getSystemProperty(BStackEnvVars.BSTACK_USERNAME));
-      setAccessKey(adminConfig.getSystemProperty(BStackEnvVars.BSTACK_ACCESS_KEY));
-      setBrowserstackLocal(adminConfig.getSystemProperty(BStackEnvVars.BSTACK_LOCAL_ENABLED));
-      setBrowserstackLocalPath(adminConfig.getSystemProperty(BStackEnvVars.BSTACK_LOCAL_ARGS));
+      setUsername(getValue(BStackEnvVars.BSTACK_USERNAME));
+      setAccessKey(getValue(BStackEnvVars.BSTACK_ACCESS_KEY));
+      setBrowserstackLocal(getValue(BStackEnvVars.BSTACK_LOCAL_ENABLED));
+      setBrowserstackLocalPath(getValue(BStackEnvVars.BSTACK_LOCAL_ARGS));
 
       return INPUT;
     }
@@ -50,12 +52,32 @@ public class ConfigureBStack extends BambooActionSupport implements GlobalAdminS
       final AdministrationConfiguration adminConfig = this.getAdministrationConfiguration();
 
       adminConfig.setSystemProperty(BStackEnvVars.BSTACK_USERNAME,getUsername());
-      adminConfig.setSystemProperty(BStackEnvVars.BSTACK_ACCESS_KEY,getAccessKey());
-      adminConfig.setSystemProperty(BStackEnvVars.BSTACK_LOCAL_ENABLED,getBrowserstackLocal());
-      adminConfig.setSystemProperty(BStackEnvVars.BSTACK_LOCAL_ARGS,getBrowserstackLocalArgs());
+      setInBandana(BStackEnvVars.BSTACK_USERNAME,getUsername());
 
+      adminConfig.setSystemProperty(BStackEnvVars.BSTACK_ACCESS_KEY,getAccessKey());
+      setInBandana(BStackEnvVars.BSTACK_ACCESS_KEY,getAccessKey());
+
+      adminConfig.setSystemProperty(BStackEnvVars.BSTACK_LOCAL_ENABLED,getBrowserstackLocal());
+      setInBandana(BStackEnvVars.BSTACK_LOCAL_ENABLED,getBrowserstackLocal());
+
+      adminConfig.setSystemProperty(BStackEnvVars.BSTACK_LOCAL_ARGS,getBrowserstackLocalArgs());
+      setInBandana(BStackEnvVars.BSTACK_LOCAL_ARGS,getBrowserstackLocalArgs());
+
+
+      addActionMessage(getText("config.updated"));
 
       return SUCCESS;
+    }
+
+    private String getValue(String key) {
+      final AdministrationConfiguration adminConfig = this.getAdministrationConfiguration();
+      String value = null;
+      if(adminConfig.getSystemProperty(key) != null) {
+        value = adminConfig.getSystemProperty(key);
+      } else {
+        value = getFromBandana(key);
+      }
+      return value;
     }
 
     public String getAccessKey()
@@ -108,4 +130,17 @@ public class ConfigureBStack extends BambooActionSupport implements GlobalAdminS
         return browserstackLocalArgs;
     }
 
+    public void setBandanaManager(BandanaManager bandanaManager)
+    {
+        this.bandanaManager = bandanaManager;
+    }
+
+    private String getFromBandana(String key) {
+      Object value = bandanaManager.getValue(PlanAwareBandanaContext.GLOBAL_CONTEXT, "com.browserstack.bamboo.ci:" + key);
+      return (String) value;
+    }
+
+    private void setInBandana(String key, String value) {
+      bandanaManager.setValue(PlanAwareBandanaContext.GLOBAL_CONTEXT, "com.browserstack.bamboo.ci:" + key, value);
+    }
 }
