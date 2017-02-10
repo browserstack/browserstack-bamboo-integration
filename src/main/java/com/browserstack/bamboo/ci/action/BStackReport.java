@@ -71,7 +71,7 @@ public class BStackReport extends ViewBuildResults {
 
     private void AddBStackSessions(String baseDirectory, ImmutableJob job) {
 
-      String directoryToScan = baseDirectory + "/" + "plan-" + plan.getId() + "/" + job.getKey().split("-")[2] + "/build-" + String.format("%05d", Integer.parseInt(buildNumber)) + "/BS_REPORTS/target";    
+      String directoryToScan = baseDirectory + "/" + "plan-" + plan.getId() + "/" + job.getKey().split("-")[2] + "/build-" + String.format("%05d", Integer.parseInt(buildNumber)) + "/BSTACK_REPORTS/target";    
       System.out.println("SCANNING THE FOLLOWING " + directoryToScan);
 
       BStackConfigManager configManager = new BStackConfigManager(administrationConfigurationAccessor.getAdministrationConfiguration(), job.getBuildDefinition().getCustomConfiguration());
