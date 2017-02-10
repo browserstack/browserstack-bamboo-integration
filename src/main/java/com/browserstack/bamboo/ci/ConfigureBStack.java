@@ -49,20 +49,11 @@ public class ConfigureBStack extends BambooActionSupport implements GlobalAdminS
     }
 
     public String doSave(){
-      final AdministrationConfiguration adminConfig = this.getAdministrationConfiguration();
 
-      adminConfig.setSystemProperty(BStackEnvVars.BSTACK_USERNAME,getUsername());
-      setInBandana(BStackEnvVars.BSTACK_USERNAME,getUsername());
-
-      adminConfig.setSystemProperty(BStackEnvVars.BSTACK_ACCESS_KEY,getAccessKey());
-      setInBandana(BStackEnvVars.BSTACK_ACCESS_KEY,getAccessKey());
-
-      adminConfig.setSystemProperty(BStackEnvVars.BSTACK_LOCAL_ENABLED,getBrowserstackLocal());
-      setInBandana(BStackEnvVars.BSTACK_LOCAL_ENABLED,getBrowserstackLocal());
-
-      adminConfig.setSystemProperty(BStackEnvVars.BSTACK_LOCAL_ARGS,getBrowserstackLocalArgs());
-      setInBandana(BStackEnvVars.BSTACK_LOCAL_ARGS,getBrowserstackLocalArgs());
-
+      setValue(BStackEnvVars.BSTACK_USERNAME,getUsername());
+      setValue(BStackEnvVars.BSTACK_ACCESS_KEY,getAccessKey());
+      setValue(BStackEnvVars.BSTACK_LOCAL_ENABLED,getBrowserstackLocal());
+      setValue(BStackEnvVars.BSTACK_LOCAL_ARGS,getBrowserstackLocalArgs());
 
       addActionMessage(getText("config.updated"));
 
@@ -78,6 +69,13 @@ public class ConfigureBStack extends BambooActionSupport implements GlobalAdminS
         value = getFromBandana(key);
       }
       return value;
+    }
+
+
+    private void setValue(String key, String value) {
+      final AdministrationConfiguration adminConfig = this.getAdministrationConfiguration();
+      adminConfig.setSystemProperty(key,value);
+      setInBandana(key,value);
     }
 
     public String getAccessKey()
