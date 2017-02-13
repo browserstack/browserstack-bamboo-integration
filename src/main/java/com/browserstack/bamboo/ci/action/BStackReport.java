@@ -61,6 +61,10 @@ public class BStackReport extends ViewBuildResults {
       return super.doDefault();
     }
 
+    public boolean getHasBStackReports() {
+      return (bStackSessions.size() > 0);
+    }
+
     public List<BStackSession> getSessions() {
 
       return bStackSessions;

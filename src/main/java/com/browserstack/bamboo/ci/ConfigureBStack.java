@@ -67,6 +67,9 @@ public class ConfigureBStack extends BambooActionSupport implements GlobalAdminS
         value = adminConfig.getSystemProperty(key);
       } else {
         value = getFromBandana(key);
+        if (value != null) {
+          setValue(key, value);
+        }
       }
       return value;
     }
