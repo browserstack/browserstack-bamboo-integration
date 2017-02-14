@@ -22,6 +22,9 @@ import com.atlassian.bamboo.build.BuildLoggerManager;
 import com.atlassian.bamboo.build.logger.BuildLogger;
 import com.atlassian.bamboo.build.logger.LogInterceptorStack;
 import org.powermock.core.classloader.annotations.PrepareForTest;
+import com.atlassian.bandana.BandanaManager;
+import com.atlassian.bandana.DefaultBandanaManager;
+import com.atlassian.bandana.impl.MemoryBandanaPersister;
 
 
 import static org.junit.Assert.assertEquals;
@@ -57,7 +60,14 @@ public class BuildConfiguratorTest {
       AdministrationConfigurationAccessor administrationConfigurationAccessor = mock(AdministrationConfigurationAccessor.class);
       when(administrationConfigurationAccessor.getAdministrationConfiguration()).thenReturn(administrationConfiguration);
 
+
+      BandanaManager bandanaManager = new DefaultBandanaManager(new MemoryBandanaPersister());
+
       buildConfigurator.setAdministrationConfigurationAccessor(administrationConfigurationAccessor);
+
+      buildConfigurator.setBandanaManager(bandanaManager);
+
+
       
       Map<String, String> customConfiguration = new HashMap<>();
 

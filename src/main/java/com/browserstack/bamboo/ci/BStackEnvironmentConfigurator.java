@@ -17,6 +17,9 @@ import com.browserstack.bamboo.ci.BStackConfigManager;
 import com.browserstack.bamboo.ci.singletons.BrowserStackLocalSingleton;
 import com.browserstack.bamboo.ci.local.BambooBrowserStackLocal;
 import org.apache.commons.lang.StringUtils;
+import com.atlassian.bandana.BandanaManager;
+
+
 import java.util.List;
 import java.util.Map;
 import java.util.Arrays;
@@ -34,6 +37,7 @@ public class BStackEnvironmentConfigurator extends BaseConfigurableBuildPlugin i
 
   protected AdministrationConfigurationManager administrationConfigurationManager;
   private EnvironmentVariableAccessor environmentVariableAccessor;
+  private BandanaManager bandanaManager;
 
   public BStackEnvironmentConfigurator() {
       super();
@@ -46,7 +50,7 @@ public class BStackEnvironmentConfigurator extends BaseConfigurableBuildPlugin i
       AdministrationConfiguration adminConfig = administrationConfigurationManager.getAdministrationConfiguration();
       setEnvironmentVariableAccessor(ComponentLocator.getComponent(EnvironmentVariableAccessor.class));
 
-      BStackConfigManager configManager = new BStackConfigManager(adminConfig, buildContext.getBuildDefinition().getCustomConfiguration());
+      BStackConfigManager configManager = new BStackConfigManager(adminConfig, buildContext.getBuildDefinition().getCustomConfiguration(), bandanaManager);
 
       if(configManager.hasCredentials()) {
         addEnvVarsToPlan();
@@ -100,5 +104,8 @@ public class BStackEnvironmentConfigurator extends BaseConfigurableBuildPlugin i
       this.environmentVariableAccessor = environmentVariableAccessor;
   }
 
-
+  public void setBandanaManager(BandanaManager bandanaManager)
+  {
+    this.bandanaManager = bandanaManager;
+  }
 }

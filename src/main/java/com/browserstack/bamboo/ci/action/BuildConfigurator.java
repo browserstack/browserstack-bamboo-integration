@@ -18,6 +18,7 @@ import com.browserstack.bamboo.ci.singletons.BrowserStackLocalSingleton;
 import com.browserstack.bamboo.ci.local.BambooBrowserStackLocal;
 import com.atlassian.bamboo.build.BuildLoggerManager;
 import com.atlassian.bamboo.build.logger.BuildLogger;
+import com.atlassian.bandana.BandanaManager;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -33,6 +34,8 @@ public class BuildConfigurator extends BaseConfigurableBuildPlugin implements Cu
 
     private AdministrationConfigurationAccessor administrationConfigurationAccessor;
     private BStackConfigManager configManager;
+    private BandanaManager bandanaManager;
+
 
 
     /* 
@@ -40,7 +43,7 @@ public class BuildConfigurator extends BaseConfigurableBuildPlugin implements Cu
     */
     @Override
     public BuildContext call() {
-      this.configManager = new BStackConfigManager(administrationConfigurationAccessor.getAdministrationConfiguration(), buildContext.getBuildDefinition().getCustomConfiguration());
+      this.configManager = new BStackConfigManager(administrationConfigurationAccessor.getAdministrationConfiguration(), buildContext.getBuildDefinition().getCustomConfiguration(), bandanaManager);
 
       if(configManager.hasCredentials()) {
         if(configManager.localEnabled()) {
@@ -109,5 +112,10 @@ public class BuildConfigurator extends BaseConfigurableBuildPlugin implements Cu
 
     public void setAdministrationConfigurationAccessor(AdministrationConfigurationAccessor administrationConfigurationAccessor) {
         this.administrationConfigurationAccessor = administrationConfigurationAccessor;
+    }
+
+    public void setBandanaManager(BandanaManager bandanaManager)
+    {
+      this.bandanaManager = bandanaManager;
     }
 }

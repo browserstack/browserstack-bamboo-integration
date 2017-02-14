@@ -43,6 +43,11 @@ import com.atlassian.bamboo.build.BuildLoggerManager;
 import com.atlassian.bamboo.build.logger.BuildLogger;
 import com.atlassian.bamboo.build.logger.LogInterceptorStack;
 import org.powermock.core.classloader.annotations.PrepareForTest;
+import com.atlassian.bandana.BandanaManager;
+import com.atlassian.bandana.DefaultBandanaManager;
+import com.atlassian.bandana.impl.MemoryBandanaPersister;
+
+
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -85,6 +90,10 @@ public class BStackEnvironmentConfiguratorTest {
     when(administrationConfigurationManager.getAdministrationConfiguration()).thenReturn(administrationConfiguration);
 
     environmentConfigurator.setAdministrationConfigurationManager(administrationConfigurationManager);
+
+    BandanaManager bandanaManager = new DefaultBandanaManager(new MemoryBandanaPersister());
+
+    environmentConfigurator.setBandanaManager(bandanaManager);
     this.definition = mock(TaskDefinition.class);
     Map<String, String> updatedConfiguration = new HashMap<String, String>();
 

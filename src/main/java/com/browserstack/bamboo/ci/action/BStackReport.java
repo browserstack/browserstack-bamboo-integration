@@ -16,6 +16,7 @@ import com.browserstack.bamboo.ci.lib.BStackXMLReportParser;
 import com.browserstack.bamboo.ci.lib.BStackSession;
 import com.browserstack.bamboo.ci.lib.BStackJUnitSessionMapper;
 import com.browserstack.automate.AutomateClient;
+import com.atlassian.bandana.BandanaManager;
 import com.browserstack.bamboo.ci.BStackConfigManager;
 
 /*
@@ -32,6 +33,9 @@ public class BStackReport extends ViewBuildResults {
     private AdministrationConfigurationAccessor administrationConfigurationAccessor;
 
     String buildNumber;
+
+    private BandanaManager bandanaManager;
+
     
     /*
       The default entry point.
@@ -75,7 +79,7 @@ public class BStackReport extends ViewBuildResults {
       String directoryToScan = baseDirectory + "/" + "plan-" + job.getParent().getId() + "/" + job.getKey().split("-")[2] + "/build-" + String.format("%05d", Integer.parseInt(buildNumber)) + "/BSTACK_REPORTS";    
       System.out.println("SCANNING THE FOLLOWING " + directoryToScan);
 
-      BStackConfigManager configManager = new BStackConfigManager(administrationConfigurationAccessor.getAdministrationConfiguration(), job.getBuildDefinition().getCustomConfiguration());
+      BStackConfigManager configManager = new BStackConfigManager(administrationConfigurationAccessor.getAdministrationConfiguration(), job.getBuildDefinition().getCustomConfiguration(), bandanaManager);
       AutomateClient automateClient = null;
 
       if(configManager.hasCredentials()) {
@@ -102,5 +106,10 @@ public class BStackReport extends ViewBuildResults {
 
     public void setAdministrationConfigurationAccessor(AdministrationConfigurationAccessor administrationConfigurationAccessor) {
         this.administrationConfigurationAccessor = administrationConfigurationAccessor;
+    }
+
+    public void setBandanaManager(BandanaManager bandanaManager)
+    {
+      this.bandanaManager = bandanaManager;
     }
 }

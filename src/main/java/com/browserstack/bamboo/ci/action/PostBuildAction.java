@@ -11,6 +11,8 @@ import org.jetbrains.annotations.NotNull;
 import com.browserstack.bamboo.ci.BStackConfigManager;
 import com.atlassian.bamboo.configuration.AdministrationConfiguration;
 import com.atlassian.bamboo.configuration.AdministrationConfigurationAccessor;
+import com.atlassian.bandana.BandanaManager;
+
 
 
 /*
@@ -27,10 +29,12 @@ public class PostBuildAction implements CustomBuildProcessor {
 
     private AdministrationConfigurationAccessor administrationConfigurationAccessor;
     private BStackConfigManager configManager;
+    private BandanaManager bandanaManager;
+
 
     @NotNull
     public BuildContext call() {
-      this.configManager = new BStackConfigManager(administrationConfigurationAccessor.getAdministrationConfiguration(), buildContext.getBuildDefinition().getCustomConfiguration());
+      this.configManager = new BStackConfigManager(administrationConfigurationAccessor.getAdministrationConfiguration(), buildContext.getBuildDefinition().getCustomConfiguration(), bandanaManager);
 
       if(configManager.hasCredentials()) {
         if(configManager.localEnabled()) {
@@ -67,5 +71,10 @@ public class PostBuildAction implements CustomBuildProcessor {
 
     public void setAdministrationConfigurationAccessor(AdministrationConfigurationAccessor administrationConfigurationAccessor) {
         this.administrationConfigurationAccessor = administrationConfigurationAccessor;
+    }
+
+    public void setBandanaManager(BandanaManager bandanaManager)
+    {
+      this.bandanaManager = bandanaManager;
     }
 }
