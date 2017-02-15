@@ -4,10 +4,10 @@
     [@ui.bambooSection]
         [@ww.textfield name="${browserstack_username_key}" label='Username' /]
         [@ww.textfield name="${browserstack_access_key_key}" label='Access Key' /]
-        [@ww.checkbox label='Enable BrowserStack Local' name='${browserstack_local_enabled_key}' toggle='true' description='BrowserStack Local allows you to test your private and internal servers, alongside public URLs on BrowserStack, <a href="https://www.browserstack.com/local-testing">more information</a>.' /]
+        [@ww.checkbox label='Enable BrowserStack Local' name='${browserstack_local_enabled_key}' toggle='true' description='BrowserStack Local allows you to test your private and internal servers, alongside public URLs on BrowserStack, <a target="_blank" href="https://www.browserstack.com/local-testing">Learn more</a>.<br>Note: You can skip this if you are already using our local bindings.' /]
 
         [@ui.bambooSection dependsOn='${browserstack_local_enabled_key}' showOn='true']
-            [@ww.textfield name="${browserstack_local_args_key}" label='Binary Arguments' description='If left empty, binary will be launched with the default arguments.' /]
+            [@ww.textfield name="${browserstack_local_args_key}" label='Modifiers' description='Any additional <a target="_blank" href="https://www.browserstack.com/local-testing#modifiers">configuration options</a>.(Optional)' /]
         [/@ui.bambooSection]
     [/@ui.bambooSection]
   [/@ui.bambooSection]
