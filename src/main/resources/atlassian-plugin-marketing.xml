@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<atlassian-plugin-marketing>
+    <logo image="images/01_logo.png"/>
+    <compatibility>
+        <product name="bamboo" min="5.13.2" max="5.13.2"/>
+      </compatibility>
+    <highlights>
+        <highlight image="images/01_highlight1_ss.png"/>
+        <highlight image="images/02_highlight2_ss.png"/>
+        <highlight image="images/03_highlight3_ss.png"/>
+    </highlights>
+    <screenshots>
+        <screenshot image="images/04_addl_ss1.png"/>
+        <screenshot image="images/05_addl_ss2.png"/>
+    </screenshots>
+</atlassian-plugin-marketing>
