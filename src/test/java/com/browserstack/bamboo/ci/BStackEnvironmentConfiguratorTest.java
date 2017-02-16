@@ -161,7 +161,7 @@ public class BStackEnvironmentConfiguratorTest {
 
     environmentConfigurator.call();
     
-    assertEquals("JABBA", variableContext.getEffectiveVariables().get(BStackEnvVars.BSTACK_USERNAME).getValue());
+    assertEquals("JABBA-bamboo", variableContext.getEffectiveVariables().get(BStackEnvVars.BSTACK_USERNAME).getValue());
     assertEquals("JABBA_KEY", variableContext.getEffectiveVariables().get(BStackEnvVars.BSTACK_ACCESS_KEY).getValue());
     assertEquals("true", variableContext.getEffectiveVariables().get(BStackEnvVars.BSTACK_LOCAL_ENABLED).getValue());
 
@@ -179,7 +179,7 @@ public class BStackEnvironmentConfiguratorTest {
 
     environmentConfigurator.call();
     
-    assertEquals("ADMIN_JABBA", variableContext.getEffectiveVariables().get(BStackEnvVars.BSTACK_USERNAME).getValue());
+    assertEquals("ADMIN_JABBA-bamboo", variableContext.getEffectiveVariables().get(BStackEnvVars.BSTACK_USERNAME).getValue());
     assertEquals("ADMIN_JABBA_KEY", variableContext.getEffectiveVariables().get(BStackEnvVars.BSTACK_ACCESS_KEY).getValue());
     assertEquals("false", variableContext.getEffectiveVariables().get(BStackEnvVars.BSTACK_LOCAL_ENABLED).getValue());
 
@@ -203,7 +203,7 @@ public class BStackEnvironmentConfiguratorTest {
 
     environmentConfigurator.call();
     
-    assertEquals("JABBA", variableContext.getEffectiveVariables().get(BStackEnvVars.BSTACK_USERNAME).getValue());
+    assertEquals("JABBA-bamboo", variableContext.getEffectiveVariables().get(BStackEnvVars.BSTACK_USERNAME).getValue());
     assertEquals("JABBA_KEY", variableContext.getEffectiveVariables().get(BStackEnvVars.BSTACK_ACCESS_KEY).getValue());
     assertEquals("true", variableContext.getEffectiveVariables().get(BStackEnvVars.BSTACK_LOCAL_ENABLED).getValue());
 
@@ -226,7 +226,7 @@ public class BStackEnvironmentConfiguratorTest {
 
     environmentConfigurator.call();
     
-    assertEquals("ADMIN_JABBA", variableContext.getEffectiveVariables().get(BStackEnvVars.BSTACK_USERNAME).getValue());
+    assertEquals("ADMIN_JABBA-bamboo", variableContext.getEffectiveVariables().get(BStackEnvVars.BSTACK_USERNAME).getValue());
     assertEquals("ADMIN_JABBA_KEY", variableContext.getEffectiveVariables().get(BStackEnvVars.BSTACK_ACCESS_KEY).getValue());
     assertEquals("false", variableContext.getEffectiveVariables().get(BStackEnvVars.BSTACK_LOCAL_ENABLED).getValue());
 

@@ -55,11 +55,10 @@ public class BStackEnvironmentConfigurator extends BaseConfigurableBuildPlugin i
       if(configManager.hasCredentials()) {
         addEnvVarsToPlan();
 
-        injectVariable(buildContext, BStackEnvVars.BSTACK_USERNAME, configManager.get(BStackEnvVars.BSTACK_USERNAME));
+        injectVariable(buildContext, BStackEnvVars.BSTACK_USERNAME, configManager.get(BStackEnvVars.BSTACK_USERNAME) + "-bamboo");
         injectVariable(buildContext, BStackEnvVars.BSTACK_ACCESS_KEY, configManager.get(BStackEnvVars.BSTACK_ACCESS_KEY));
         injectVariable(buildContext, BStackEnvVars.BSTACK_LOCAL_ENABLED, configManager.get(BStackEnvVars.BSTACK_LOCAL_ENABLED));
-      }
-            
+      }  
       return buildContext;
   }
 
