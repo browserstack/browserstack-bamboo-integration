@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.browserstack.bamboo</groupId>
     <artifactId>browserstack-bamboo-integration</artifactId>
     <version>1.0.0</version>
-    <name>Bamboo BrowserStack Integration Plugin</name>
+
+    <name>BrowserStack Plugin for Bamboo</name>
     <packaging>atlassian-plugin</packaging>
-    <description>This is Plugin allows you to run Selenium tests on BrowserStack's cloud.</description>
+    <description>This plugin allows you to run Selenium tests on BrowserStack</description>
+
     <licenses>
         <license>
             <name>The Apache Software License, Version 2.0</name>
@@ -15,14 +18,16 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+
     <organization>
         <name>BrowserStack</name>
-        <url>http://www.browserstack.com/</url>
+        <url>https://www.browserstack.com/</url>
     </organization>
-    
+
     <properties>
         <bamboo.version>5.13.2</bamboo.version>
         <bamboo.data.version>5.13.2</bamboo.data.version>
+
         <amps.version>6.2.11</amps.version>
         <atlassian.spring.scanner.version>1.2.6</atlassian.spring.scanner.version>
         <!-- This key is used to keep the consistency between the key in atlassian-plugin.xml and the key to generate bundle. -->
@@ -38,7 +43,7 @@
             <version>1.5.6</version>
             <scope>test</scope>
         </dependency>
-        
+
         <dependency>
             <groupId>org.powermock</groupId>
             <artifactId>powermock-api-mockito</artifactId>

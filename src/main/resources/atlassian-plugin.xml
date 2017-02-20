@@ -4,7 +4,7 @@
         <version>${project.version}</version>
         <vendor name="${project.organization.name}" url="${project.organization.url}" />
         <param name="plugin-icon">images/pluginIcon.png</param>
-        <param name="plugin-logo">images/pluginLogo.png</param>
+        <param name="vendor-logo">images/vendorIcon.png</param>
     </plugin-info>
 
     <web-resource key="BStackAssets" name="BStackAssets">
@@ -21,7 +21,7 @@
     <preBuildQueuedAction key="BStackEnvironmentConfigurator" name="BrowserStack Environment Configurator"
                           class="com.browserstack.bamboo.ci.BStackEnvironmentConfigurator">
     </preBuildQueuedAction>
-    
+
     <preBuildAction key="BStackBuildConfigurator" name="BrowserStack Build Configurator" class="com.browserstack.bamboo.ci.action.BuildConfigurator">
         <resource type="freemarker" name="edit" location="templates/build/BStackBuildEdit.ftl"/>
         <resource type="freemarker" name="view" location="templates/build/BStackBuildView.ftl"/>
