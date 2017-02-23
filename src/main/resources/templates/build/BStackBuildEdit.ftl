@@ -3,7 +3,7 @@
   [@ui.bambooSection dependsOn='custom.browserstack.override' showOn='true']
     [@ui.bambooSection]
         [@ww.textfield name="${browserstack_username_key}" label='Username' /]
-        [@ww.textfield name="${browserstack_access_key_key}" label='Access Key' /]
+        [@ww.password name="${browserstack_access_key_key}" label='Access Key' showPassword='true'/]
         [@ww.checkbox label='Enable BrowserStack Local' name='${browserstack_local_enabled_key}' toggle='true' description='BrowserStack Local allows you to test your private and internal servers, alongside public URLs on BrowserStack, <a target="_blank" href="https://www.browserstack.com/local-testing">Learn more</a>.<br>Note: You can skip this if you are already using our local bindings.' /]
 
         [@ui.bambooSection dependsOn='${browserstack_local_enabled_key}' showOn='true']

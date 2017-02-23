@@ -13,7 +13,7 @@
         submitLabelKey='global.buttons.update'
         cancelUri='/admin/administer.action']
         [@ww.textfield name="username" label='Username' /]
-        [@ww.textfield name="accessKey" label='Access Key' /]
+        [@ww.password name="accessKey" label='Access Key' showPassword='true'/]
 
         [@ww.checkbox label='Enable BrowserStack Local' name='browserstackLocal' toggle='true' description='BrowserStack Local allows you to test your private and internal servers, alongside public URLs on BrowserStack, <a target="_blank" href="https://www.browserstack.com/local-testing">Learn more</a>.<br>Note: You can skip this if you are already using our local bindings.' /]
         [@ui.bambooSection dependsOn='browserstackLocal' showOn='true']
