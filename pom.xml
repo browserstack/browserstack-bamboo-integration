@@ -34,8 +34,14 @@
         <atlassian.plugin.key>${project.groupId}.${project.artifactId}</atlassian.plugin.key>
         <java.version>7</java.version>
     </properties>
+    
     <scm>
+        <connection>scm:git:git://github.com/browserstack/browserstack-bamboo-integration.git</connection>
+        <developerConnection>scm:git:git@github.com/browserstack/browserstack-bamboo-integration.git</developerConnection>
+        <url>git@github.com/browserstack/browserstack-bamboo-integration.git</url>
+        <tag>HEAD</tag>
     </scm>
+
     <dependencies>
         <dependency>
             <groupId>org.powermock</groupId>
