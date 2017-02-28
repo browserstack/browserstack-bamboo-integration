@@ -43,7 +43,7 @@ public class ConfigureBStack extends BambooActionSupport implements GlobalAdminS
       setUsername(getValue(BStackEnvVars.BSTACK_USERNAME));
       setAccessKey(getValue(BStackEnvVars.BSTACK_ACCESS_KEY));
       setBrowserstackLocal(getValue(BStackEnvVars.BSTACK_LOCAL_ENABLED));
-      setBrowserstackLocalPath(getValue(BStackEnvVars.BSTACK_LOCAL_ARGS));
+      setBrowserstackLocalArgs(getValue(BStackEnvVars.BSTACK_LOCAL_ARGS));
 
       return INPUT;
     }
@@ -109,16 +109,6 @@ public class ConfigureBStack extends BambooActionSupport implements GlobalAdminS
     public String getBrowserstackLocal()
     {
         return browserstackLocal;
-    }
-
-    public void setBrowserstackLocalPath(String value)
-    {
-        this.browserstackLocalPath = value;
-    }
-
-    public String getBrowserstackLocalPath()
-    {
-        return browserstackLocalPath;
     }
 
     public void setBrowserstackLocalArgs(String value)
