@@ -5,9 +5,9 @@
         <product name="bamboo" min="5.13.2" max="5.13.2"/>
       </compatibility>
     <highlights>
-        <highlight image="images/01_highlight1_ss.png"/>
-        <highlight image="images/02_highlight2_ss.png"/>
-        <highlight image="images/03_highlight3_ss.png"/>
+        <highlight image="images/01_highlight1_ss.png" cropped="images/01_highlight1_cropped.png"/>
+        <highlight image="images/02_highlight2_ss.png" cropped="images/02_highlight2_cropped.png"/>
+        <highlight image="images/03_highlight3_ss.png" cropped="images/03_highlight3_cropped.png"/>
     </highlights>
     <screenshots>
         <screenshot image="images/04_addl_ss1.png"/>
