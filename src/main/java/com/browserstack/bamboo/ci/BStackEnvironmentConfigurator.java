@@ -22,7 +22,9 @@ import com.atlassian.bandana.BandanaManager;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Arrays;
+import java.util.HashMap;
 
 /*
   Sets the Job's Environment Variables sections to have the required Bamboo variables to be used as the desired Environment variables.
@@ -67,12 +69,18 @@ public class BStackEnvironmentConfigurator extends BaseConfigurableBuildPlugin i
     for (TaskDefinition taskDefinition : taskDefinitions) {
         Map<String, String> configuration = taskDefinition.getConfiguration();
         String originalEnv = StringUtils.defaultString((String) configuration.get("environmentVariables"));
-        Map<String, String> origMap = environmentVariableAccessor.splitEnvironmentAssignments(originalEnv, false);        
-
-        origMap.put(BStackEnvVars.BSTACK_USERNAME, "${bamboo." + BStackEnvVars.BSTACK_USERNAME + "}");
-        origMap.put(BStackEnvVars.BSTACK_ACCESS_KEY, "${bamboo." + BStackEnvVars.BSTACK_ACCESS_KEY + "}");
-        origMap.put(BStackEnvVars.BSTACK_LOCAL_ENABLED, "${bamboo." + BStackEnvVars.BSTACK_LOCAL_ENABLED + "}");
-        origMap.put(BStackEnvVars.BSTACK_LOCAL_IDENTIFIER, "${bamboo." + BStackEnvVars.BSTACK_LOCAL_IDENTIFIER + "}");
+        Map<String, String> returnedMap = environmentVariableAccessor.splitEnvironmentAssignments(originalEnv, false);        
+        
+        Map<String, String> origMap = new HashMap<>();
+    	for(Entry<String, String> entry: returnedMap.entrySet())
+    	{
+    		origMap.put(entry.getKey(), "\"" + entry.getValue() +"\"" );
+    	}
+    	
+        origMap.put(BStackEnvVars.BSTACK_USERNAME, "\"${bamboo." + BStackEnvVars.BSTACK_USERNAME + "}\"");
+        origMap.put(BStackEnvVars.BSTACK_ACCESS_KEY, "\"${bamboo." + BStackEnvVars.BSTACK_ACCESS_KEY + "}\"");
+        origMap.put(BStackEnvVars.BSTACK_LOCAL_ENABLED, "\"${bamboo." + BStackEnvVars.BSTACK_LOCAL_ENABLED + "}\"");
+        origMap.put(BStackEnvVars.BSTACK_LOCAL_IDENTIFIER, "\"${bamboo." + BStackEnvVars.BSTACK_LOCAL_IDENTIFIER + "}\"");
 
         environmentVariableAccessor = new EnvironmentVariableAccessorImpl(null, null);
         String modifiedVars = environmentVariableAccessor.joinEnvironmentVariables(origMap);
@@ -107,4 +115,5 @@ public class BStackEnvironmentConfigurator extends BaseConfigurableBuildPlugin i
   {
     this.bandanaManager = bandanaManager;
   }
+  
 }

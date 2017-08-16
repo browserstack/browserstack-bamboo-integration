@@ -140,10 +140,10 @@ public class BStackEnvironmentConfiguratorTest {
 
     environmentConfigurator.call();
     
-    assertTrue(definition.getConfiguration().get("environmentVariables").contains(BStackEnvVars.BSTACK_USERNAME + "=${bamboo." + BStackEnvVars.BSTACK_USERNAME + "}"));
-    assertTrue(definition.getConfiguration().get("environmentVariables").contains(BStackEnvVars.BSTACK_ACCESS_KEY + "=${bamboo." + BStackEnvVars.BSTACK_ACCESS_KEY + "}"));
-    assertTrue(definition.getConfiguration().get("environmentVariables").contains(BStackEnvVars.BSTACK_LOCAL_ENABLED + "=${bamboo." + BStackEnvVars.BSTACK_LOCAL_ENABLED + "}"));
-    assertTrue(definition.getConfiguration().get("environmentVariables").contains(BStackEnvVars.BSTACK_LOCAL_IDENTIFIER + "=${bamboo." + BStackEnvVars.BSTACK_LOCAL_IDENTIFIER + "}"));
+    assertTrue(definition.getConfiguration().get("environmentVariables").contains(BStackEnvVars.BSTACK_USERNAME + "=\"${bamboo." + BStackEnvVars.BSTACK_USERNAME + "}\""));
+    assertTrue(definition.getConfiguration().get("environmentVariables").contains(BStackEnvVars.BSTACK_ACCESS_KEY + "=\"${bamboo." + BStackEnvVars.BSTACK_ACCESS_KEY + "}\""));
+    assertTrue(definition.getConfiguration().get("environmentVariables").contains(BStackEnvVars.BSTACK_LOCAL_ENABLED + "=\"${bamboo." + BStackEnvVars.BSTACK_LOCAL_ENABLED + "}\""));
+    assertTrue(definition.getConfiguration().get("environmentVariables").contains(BStackEnvVars.BSTACK_LOCAL_IDENTIFIER + "=\"${bamboo." + BStackEnvVars.BSTACK_LOCAL_IDENTIFIER + "}\""));
 
   }
 
