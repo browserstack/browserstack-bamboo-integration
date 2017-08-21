@@ -48,8 +48,8 @@
     <xwork key="BStackActions" name="BrowserStack Plugin Actions">
         <package name="BStackAdmin" extends="admin" namespace="/admin/browserstack">
             <action name="BStackEditConfiguration" class="com.browserstack.bamboo.ci.ConfigureBStack" method="edit">
-                <result name="input" type="freemarker">/templates/ConfigureBStack.ftl</result>
-                <result name="success" type="freemarker">/templates/ConfigureBStack.ftl</result>
+                <result name="input" type="freemarker">/templates/configureBStack.ftl</result>
+                <result name="success" type="freemarker">/templates/configureBStack.ftl</result>
                 <result name="error" type="freemarker">/error.ftl</result>
                 <param name="mode">edit</param>
             </action>
