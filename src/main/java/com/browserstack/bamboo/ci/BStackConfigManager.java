@@ -51,9 +51,9 @@ public class BStackConfigManager {
   public Boolean disableEnvVar(){
 	String disableEnv = get(BStackEnvVars.BSTACK_DISABLE_ENV_VARS);
 	if (disableEnv != null && disableEnv.equals("true"))
-		return true;
+	  return true;
 	else
-		return false;
+      return false;
   }
 
   public String get(String key) {
