@@ -215,24 +215,24 @@ public class BStackEnvironmentConfiguratorTest {
   @Test
   public void shouldNotSetBrowserstackEnvVariablesToBuildPathIfDisabledFromPlan() {
 
-	buildDefinition.getCustomConfiguration().put("custom.browserstack.override", "true");
+  	buildDefinition.getCustomConfiguration().put("custom.browserstack.override", "true");
     buildDefinition.getCustomConfiguration().put("custom.browserstack." + BStackEnvVars.BSTACK_DISABLE_ENV_VARS, "true");
     buildDefinition.getCustomConfiguration().put("custom.browserstack." + BStackEnvVars.BSTACK_USERNAME, "JABBA");
     buildDefinition.getCustomConfiguration().put("custom.browserstack." + BStackEnvVars.BSTACK_ACCESS_KEY, "JABBA_KEY");
-	environmentConfigurator.call();
-	assertNull(definition.getConfiguration().get("environmentVariables"));
+  	environmentConfigurator.call();
+  	assertNull(definition.getConfiguration().get("environmentVariables"));
   }
   
   @Test
   public void shouldNotSetBrowserstackEnvVariablesToBuildPathIfDisabledFromAdmin() {
 
-	buildDefinition.getCustomConfiguration().put("custom.browserstack.override", "false");
-	administrationConfiguration.setSystemProperty(BStackEnvVars.BSTACK_DISABLE_ENV_VARS, "true");
-	administrationConfiguration.setSystemProperty(BStackEnvVars.BSTACK_USERNAME, "ADMIN_JABBA");
+  	buildDefinition.getCustomConfiguration().put("custom.browserstack.override", "false");
+  	administrationConfiguration.setSystemProperty(BStackEnvVars.BSTACK_DISABLE_ENV_VARS, "true");
+  	administrationConfiguration.setSystemProperty(BStackEnvVars.BSTACK_USERNAME, "ADMIN_JABBA");
     administrationConfiguration.setSystemProperty(BStackEnvVars.BSTACK_ACCESS_KEY, "ADMIN_JABBA_KEY");
     administrationConfiguration.setSystemProperty(BStackEnvVars.BSTACK_LOCAL_ENABLED, "false");
-	environmentConfigurator.call();
-	assertNull(definition.getConfiguration().get("environmentVariables"));
+  	environmentConfigurator.call();
+  	assertNull(definition.getConfiguration().get("environmentVariables"));
   }
   
 
