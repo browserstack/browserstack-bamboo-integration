@@ -18,6 +18,7 @@ import com.browserstack.bamboo.ci.lib.BStackJUnitSessionMapper;
 import com.browserstack.automate.AutomateClient;
 import com.atlassian.bandana.BandanaManager;
 import com.browserstack.bamboo.ci.BStackConfigManager;
+import com.browserstack.appautomate.AppAutomateClient;
 
 /*
   invoked when accessing the BrowserStack Report tab. It will try to parse reports present in the Build's working directory in order to create mappings from Test Cases to BrowserStack sessions.
