@@ -18,6 +18,7 @@ import com.browserstack.bamboo.ci.lib.BStackJUnitSessionMapper;
 import com.browserstack.automate.AutomateClient;
 import com.atlassian.bandana.BandanaManager;
 import com.browserstack.bamboo.ci.BStackConfigManager;
+import com.browserstack.appautomate.AppAutomateClient;
 
 /*
   invoked when accessing the BrowserStack Report tab. It will try to parse reports present in the Build's working directory in order to create mappings from Test Cases to BrowserStack sessions.
@@ -81,15 +82,16 @@ public class BStackReport extends ViewBuildResults {
 
       BStackConfigManager configManager = new BStackConfigManager(administrationConfigurationAccessor.getAdministrationConfiguration(), job.getBuildDefinition().getCustomConfiguration(), bandanaManager);
       AutomateClient automateClient = null;
-
+      AppAutomateClient appAutomateClient = null;
       if(configManager.hasCredentials()) {
         automateClient = new AutomateClient(configManager.getUsername(), configManager.getAccessKey());
+        appAutomateClient = new AppAutomateClient(configManager.getUsername(), configManager.getAccessKey());
       }
 
       if (automateClient != null) {
         BStackXMLReportParser bStackParser = new BStackXMLReportParser(directoryToScan);
         bStackParser.process();
-        BStackJUnitSessionMapper sessionMapper = new BStackJUnitSessionMapper(directoryToScan, bStackParser.getTestSessionMap(), automateClient);
+        BStackJUnitSessionMapper sessionMapper = new BStackJUnitSessionMapper(directoryToScan, bStackParser.getTestSessionMap(), automateClient, appAutomateClient);
 
         bStackSessions.addAll(sessionMapper.parseAndMapJUnitXMLReports());
       } 

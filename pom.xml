@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.browserstack.bamboo</groupId>
     <artifactId>browserstack-bamboo-integration</artifactId>
-    <version>1.0.3-SNAPSHOT</version>
+    <version>1.0.5-SNAPSHOT</version>
 
     <name>BrowserStack Plugin for Bamboo</name>
     <packaging>atlassian-plugin</packaging>
@@ -102,7 +102,7 @@
         <dependency>
             <groupId>com.browserstack</groupId>
             <artifactId>automate-client-java</artifactId>
-            <version>0.2</version>
+            <version>0.3</version>
         </dependency>
 
         <dependency>
