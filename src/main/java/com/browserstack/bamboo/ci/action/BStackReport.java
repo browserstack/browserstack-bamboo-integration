@@ -3,13 +3,11 @@ package com.browserstack.bamboo.ci.action;
 import com.atlassian.bamboo.plan.cache.ImmutableChain;
 import com.atlassian.bamboo.plan.cache.ImmutableJob;
 import com.atlassian.bamboo.plan.cache.ImmutablePlan;
-import com.atlassian.bamboo.build.ViewBuildResults;
+import com.atlassian.bamboo.build.PlanResultsAction;
 import com.atlassian.bamboo.configuration.SystemInfo;
 import com.atlassian.spring.container.LazyComponentReference;
-import com.atlassian.bamboo.configuration.AdministrationConfiguration;
 import com.atlassian.bamboo.configuration.AdministrationConfigurationAccessor;
 import java.util.List;
-import java.util.Map;
 import java.util.ArrayList;
 
 import com.browserstack.bamboo.ci.lib.BStackXMLReportParser;
@@ -27,14 +25,14 @@ import com.browserstack.appautomate.AppAutomateClient;
 /**
  * @author Pulkit Sharma
  */
-public class BStackReport extends ViewBuildResults {
+public class BStackReport extends PlanResultsAction {
 
     private List<BStackSession> bStackSessions;
 
     private AdministrationConfigurationAccessor administrationConfigurationAccessor;
 
     String buildNumber;
-
+    Boolean hasBStackReports;
     private BandanaManager bandanaManager;
 
     
@@ -63,16 +61,24 @@ public class BStackReport extends ViewBuildResults {
         }
       }
 
-      return super.doDefault();
+      return super.execute();
     }
 
-    public boolean getHasBStackReports() {
-      return (bStackSessions.size() > 0);
+    public String execute() throws Exception {
+      return doDefault();
     }
 
     public List<BStackSession> getSessions() {
 
       return bStackSessions;
+    }
+
+    public Boolean getHasBStackReports() {
+      return hasBStackReports;
+    }
+
+    public void setHasBStackReports(Boolean hasBStackReports) {
+      this.hasBStackReports = hasBStackReports;
     }
 
     private void AddBStackSessions(String baseDirectory, ImmutableJob job) {
@@ -94,12 +100,17 @@ public class BStackReport extends ViewBuildResults {
         BStackJUnitSessionMapper sessionMapper = new BStackJUnitSessionMapper(directoryToScan, bStackParser.getTestSessionMap(), automateClient, appAutomateClient);
 
         bStackSessions.addAll(sessionMapper.parseAndMapJUnitXMLReports());
-      } 
+      }
       
+      hasBStackReports = bStackSessions.size() > 0;
     }
 
     public void setBuildNumber(String buildNumber){
       this.buildNumber = buildNumber;
+    }
+
+    public java.lang.Integer getBuildNumber() {
+      return Integer.parseInt(buildNumber);
     }
 
     public AdministrationConfigurationAccessor getAdministrationConfigurationAccessor() {
