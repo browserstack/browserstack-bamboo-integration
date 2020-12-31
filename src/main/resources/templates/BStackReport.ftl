@@ -99,5 +99,5 @@
         </script>
     [#else]
         <p> No BrowserStack Reports found.</p>
-        <a target="_blank" href="https://www.browserstack.com/automate/bamboo#reporting">View your BrowserStack test reports in Bamboo.</href>
+        <a target="_blank" href="https://www.browserstack.com/docs/automate/selenium/bamboo#generating-and-embedding-test-reportsfor-junit-and-testng-only">View your BrowserStack test reports in Bamboo.</href>
     [/#if]
