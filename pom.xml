@@ -139,7 +139,7 @@
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-http</artifactId>
-            <version>7.2.1.v20101111</version>
+            <version>9.4.48.v20220622</version>
             <scope>test</scope>
         </dependency>
         <dependency>
